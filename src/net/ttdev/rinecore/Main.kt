@@ -52,6 +52,7 @@ class Main : JavaPlugin(), Listener {
             if (sender !is Player) return true
             sender.sendMessage("Playtime: ${sender.getFormattedPlaytime()}.")
         } else {
+
             /* if the sender provides 1 argument it's assumed
              * they're checking the playtime of another player. */
             val player = Bukkit.getPlayer(args[0])
@@ -64,19 +65,41 @@ class Main : JavaPlugin(), Listener {
         return true
     }
 
+    /**
+     * Get the list of playtimes from the config.yml.
+     * Each entry in the list looks like this:
+     * `UUID->PLAYTIME (in seconds)`
+     */
     fun getPlaytimeList(): MutableList<String> {
         return config.getStringList("playtimes")
     }
 
+    /**
+     * Set the entire list of playtimes in the config.yml
+     * to the specified `MutableList<String>` of entries.
+     * If these entries aren't in `UUID->PLAYTIME` format
+     * then retrieving a players playtime might have
+     * unexpected behavior.
+     */
     fun setPlaytimes(playtimes: MutableList<String>) {
         config.set("playtimes", playtimes)
         saveConfig()
     }
 
+    /**
+     * Get the playtime of a player in hours.
+     * This performs a conversion of `Player.playtime`
+     * from seconds to hours, then returns the result.
+     */
     fun Player.getPlaytimeHours(): Long {
         return Duration.ofSeconds(playtime).toHours()
     }
 
+    /**
+     * The formatted playtime is in
+     * `HOUR hours, MINUTE minutes` format.
+     * Seconds are discarded and aren't displayed.
+     */
     fun Player.getFormattedPlaytime(): String {
         var seconds = playtime
         val hours = seconds / (60 * 60)
@@ -85,6 +108,11 @@ class Main : JavaPlugin(), Listener {
         return "$hours hours, and $minutes minutes"
     }
 
+    /**
+     * All numbers are returned as their superscripted
+     * counterparts.
+     * E.g. 1234 becomes ¹²³⁴
+     */
     fun superscriptNumbers(numbers: Long): String {
         val superscriptMap = mapOf(
                 '1' to '\u00B9',
@@ -107,6 +135,9 @@ class Main : JavaPlugin(), Listener {
         return newSequence
     }
 
+    /**
+     * The players playtime in seconds.
+     */
     var Player.playtime: Long
         get() {
             val playTimeList = getPlaytimeList()
@@ -136,6 +167,11 @@ class Main : JavaPlugin(), Listener {
             setPlaytimes(playtimeList)
         }
 
+    /**
+     * Changes the format of a player chat message
+     * to append the playtime as superscripted numbers
+     * in front of the players displayname.
+     */
     @EventHandler
     fun onPlayerChat(event: AsyncPlayerChatEvent) {
         event.apply {

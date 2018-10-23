@@ -29,6 +29,10 @@ class Main : JavaPlugin(), Listener {
         saveDefaultConfig()
         server.pluginManager.registerEvents(this, this)
         startPlaytimeClock()
+
+        /* Start checking for AFK players */
+        AFKThread().runTaskTimer(this, 20, 20)
+
         logger.info("$name enabled.")
     }
 

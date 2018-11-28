@@ -15,6 +15,10 @@ public final class RentedLandChunk extends LandChunk implements Comparable<Rente
         return timeLeft;
     }
 
+    public void adjustTimeLeft(int amount) {
+        timeLeft += amount;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof RentedLandChunk)) {
@@ -28,8 +32,6 @@ public final class RentedLandChunk extends LandChunk implements Comparable<Rente
 
     @Override
     public int compareTo(RentedLandChunk landChunk) {
-        if (landChunk.timeLeft < timeLeft) return 1;
-        if (landChunk.timeLeft > timeLeft) return -1;
-        return 0;
+        return Integer.compare(landChunk.timeLeft, timeLeft);
     }
 }

@@ -61,7 +61,7 @@ public final class LandCommand implements CommandExecutor {
             int chunkZ = chunk.getZ();
             RentedLandChunk landChunk = new RentedLandChunk(owner, rentName, chunkX, chunkZ, rentTime.getSeconds());
 
-            Main.getRentManager().add(landChunk);
+            Main.getRentTimeManager().add(landChunk);
             Serializer.serializeLandChunk(FileDirectories.LAND_CHUNKS, landChunk);
 
             player.sendMessage(ChatColor.GREEN + "Land rent successful.");

@@ -1,7 +1,7 @@
 package net.ttdev.rinecore;
 
 import net.ttdev.rinecore.land.LandCommand;
-import net.ttdev.rinecore.land.RentManager;
+import net.ttdev.rinecore.land.RentTimeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class Main extends JavaPlugin implements Listener {
 
     private static Main instance;
-    private static RentManager rentManager;
+    private static RentTimeManager rentTimeManager;
 
     @Override
     public void onEnable() {
@@ -40,7 +40,7 @@ public class Main extends JavaPlugin implements Listener {
 
         startPlaytimeClock();
 
-        rentManager = new RentManager(this);
+        rentTimeManager = new RentTimeManager(this);
 
         /* Start checking for AFK players */
         new AFKThread().runTaskTimer(this, 20, 20);
@@ -86,8 +86,8 @@ public class Main extends JavaPlugin implements Listener {
         return true;
     }
 
-    public static RentManager getRentManager() {
-        return rentManager;
+    public static RentTimeManager getRentTimeManager() {
+        return rentTimeManager;
     }
 
     public static Main getInstance() {

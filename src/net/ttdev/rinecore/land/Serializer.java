@@ -8,11 +8,7 @@ import java.util.*;
 
 public final class Serializer {
 
-    private static void serializeLandChunk(String filePath, LandChunk landChunk, boolean saveFile) {
-
-        File file = new File(filePath);
-
-        YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+    private static void serializeLandChunk(String filePath, LandChunk landChunk, YamlConfiguration configuration) {
 
         final String sectionId = landChunk.getOwner().toString();
 
@@ -33,17 +29,20 @@ public final class Serializer {
             chunkSection.set("time-left", timeLeft);
         }
 
-        if (!saveFile) return;
+    }
+
+    public static void serializeLandChunk(String filePath, LandChunk landChunk) {
+
+        File file = new File(filePath);
+        YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+
+        serializeLandChunk(filePath, landChunk, configuration);
 
         try {
             configuration.save(file);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void serializeLandChunk(String filePath, LandChunk landChunk) {
-        serializeLandChunk(filePath, landChunk, true);
     }
 
     /**
@@ -53,14 +52,13 @@ public final class Serializer {
      * @param filePath
      * @param landChunks
      */
-    public static void serializeLandChunks(String filePath, List<? extends LandChunk> landChunks) {
+    public static void serializeLandChunks(String filePath, Collection<? extends LandChunk> landChunks) {
 
         File file = new File(filePath);
-
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
         for (LandChunk landChunk : landChunks) {
-            serializeLandChunk(filePath, landChunk, false);
+            serializeLandChunk(filePath, landChunk, configuration);
         }
 
         try {

@@ -20,17 +20,6 @@ public final class RentedLandChunk extends LandChunk implements Comparable<Rente
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof RentedLandChunk)) {
-            return false;
-        }
-
-        RentedLandChunk rentedLandChunk = (RentedLandChunk) obj;
-        return rentedLandChunk.getOwner().equals(super.getOwner()) &&
-                rentedLandChunk.getName().equals(super.getName());
-    }
-
-    @Override
     public int compareTo(RentedLandChunk landChunk) {
         return Integer.compare(landChunk.timeLeft, timeLeft);
     }

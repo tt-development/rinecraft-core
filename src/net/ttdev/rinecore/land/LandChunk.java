@@ -43,4 +43,19 @@ public abstract class LandChunk {
     public int getChunkZ() {
         return chunkZ;
     }
+
+    public boolean sameName(LandChunk otherChunk) {
+        return otherChunk.name.equalsIgnoreCase(name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (!(obj instanceof LandChunk)) {
+            return false;
+        }
+
+        LandChunk otherChunk = (LandChunk) obj;
+        return otherChunk.owner.equals(owner) && otherChunk.name.equals(name);
+    }
 }

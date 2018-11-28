@@ -2,6 +2,7 @@ package net.ttdev.rinecore.land;
 
 import net.ttdev.rinecore.Main;
 import net.ttdev.rinecore.util.FileDirectories;
+import net.ttdev.rinecore.util.LandChunkHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
@@ -59,10 +60,16 @@ public final class LandCommand implements CommandExecutor {
 
             int chunkX = chunk.getX();
             int chunkZ = chunk.getZ();
-            RentedLandChunk landChunk = new RentedLandChunk(owner, rentName, chunkX, chunkZ, rentTime.getSeconds());
+            RentedLandChunk rentedLandChunk = new RentedLandChunk(owner, rentName, chunkX, chunkZ, rentTime.getSeconds());
 
-            Main.getRentTimeManager().add(landChunk);
-            Serializer.serializeLandChunk(FileDirectories.LAND_CHUNKS, landChunk);
+            String message = LandChunkHelper.checkNameAndOwnage(player.getUniqueId(), rentedLandChunk);
+            if (message != null) {
+                player.sendMessage(message);
+                return true;
+            }
+
+            Main.getRentTimeManager().add(rentedLandChunk);
+            Serializer.serializeLandChunk(FileDirectories.LAND_CHUNKS, rentedLandChunk);
 
             player.sendMessage(ChatColor.GREEN + "Land rent successful.");
 
@@ -85,9 +92,15 @@ public final class LandCommand implements CommandExecutor {
 
             int chunkX = chunk.getX();
             int chunkZ = chunk.getZ();
-            LandChunk landChunk = new OwnedLandChunk(owner, landName, chunkX, chunkZ);
+            LandChunk ownedLandChunk = new OwnedLandChunk(owner, landName, chunkX, chunkZ);
 
-            Serializer.serializeLandChunk(FileDirectories.LAND_CHUNKS, landChunk);
+            String message = LandChunkHelper.checkNameAndOwnage(player.getUniqueId(), ownedLandChunk);
+            if (message != null) {
+                player.sendMessage(message);
+                return true;
+            }
+
+            Serializer.serializeLandChunk(FileDirectories.LAND_CHUNKS, ownedLandChunk);
 
             player.sendMessage(ChatColor.GREEN + "Land purchase successful.");
 

@@ -8,35 +8,35 @@ import java.util.*;
 
 public final class Serializer {
 
-    private static void serializeLandChunk(String filePath, LandChunk landChunk, YamlConfiguration configuration) {
+    private static void serializeLandChunk(String filePath, AbstractChunk chunk, YamlConfiguration configuration) {
 
-        final String sectionId = landChunk.getOwner().toString();
+        final String sectionId = chunk.getOwner().toString();
 
         final ConfigurationSection section = configuration.isConfigurationSection(sectionId) ?
                 configuration.getConfigurationSection(sectionId) :
                 configuration.createSection(sectionId);
 
-        final ConfigurationSection chunkSection = section.isConfigurationSection(landChunk.getName()) ?
-                section.getConfigurationSection(landChunk.getName()) :
-                section.createSection(landChunk.getName());
+        final ConfigurationSection chunkSection = section.isConfigurationSection(chunk.getName()) ?
+                section.getConfigurationSection(chunk.getName()) :
+                section.createSection(chunk.getName());
 
-        chunkSection.set("chunk-x", landChunk.getChunkX());
-        chunkSection.set("chunk-z", landChunk.getChunkZ());
+        chunkSection.set("chunk-x", chunk.getChunkX());
+        chunkSection.set("chunk-z", chunk.getChunkZ());
 
-        if (landChunk instanceof RentedLandChunk) {
-            final RentedLandChunk rentedLandChunk = (RentedLandChunk) landChunk;
-            final int timeLeft = rentedLandChunk.getTimeLeft();
+        if (chunk instanceof RentedChunk) {
+            final RentedChunk rentedChunk = (RentedChunk) chunk;
+            final int timeLeft = rentedChunk.getTimeLeft();
             chunkSection.set("time-left", timeLeft);
         }
 
     }
 
-    public static void serializeLandChunk(String filePath, LandChunk landChunk) {
+    public static void serializeLandChunk(String filePath, AbstractChunk chunk) {
 
         File file = new File(filePath);
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
-        serializeLandChunk(filePath, landChunk, configuration);
+        serializeLandChunk(filePath, chunk, configuration);
 
         try {
             configuration.save(file);
@@ -52,13 +52,13 @@ public final class Serializer {
      * @param filePath
      * @param landChunks
      */
-    public static void serializeLandChunks(String filePath, Collection<? extends LandChunk> landChunks) {
+    public static void serializeLandChunks(String filePath, Collection<? extends AbstractChunk> landChunks) {
 
         File file = new File(filePath);
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
-        for (LandChunk landChunk : landChunks) {
-            serializeLandChunk(filePath, landChunk, configuration);
+        for (AbstractChunk chunk : landChunks) {
+            serializeLandChunk(filePath, chunk, configuration);
         }
 
         try {
@@ -69,13 +69,13 @@ public final class Serializer {
     }
 
     /**
-     * Reads and returns a <code>List</code> of all the <code>net.ttdev.rinecore.land.LandChunk</code>'s owned by <code>owner</code>.
+     * Reads and returns a <code>List</code> of all the <code>net.ttdev.rinecore.land.AbstractChunk</code>'s owned by <code>owner</code>.
      *
      * @param owner
      * @param filePath
      * @return
      */
-    public static List<LandChunk> deserializeLandChunks(UUID owner, String filePath) {
+    public static List<AbstractChunk> deserializeLandChunks(UUID owner, String filePath) {
 
         File file = new File(filePath);
 
@@ -85,7 +85,7 @@ public final class Serializer {
         final Set<String> keySet = section.getKeys(false);
         final Iterator<String> keyIterator = keySet.iterator();
 
-        final List<LandChunk> landChunks = new ArrayList<>();
+        final List<AbstractChunk> chunks = new ArrayList<>();
         while (keyIterator.hasNext()) {
             final String chunkName = keyIterator.next();
             final ConfigurationSection chunkSection = section.getConfigurationSection(chunkName);
@@ -93,14 +93,14 @@ public final class Serializer {
             final int chunkZ = chunkSection.getInt("chunk-z");
 
             final int rentTime = chunkSection.getInt("rent-time", -1);
-            LandChunk landChunk = rentTime == -1 ?
-                    new OwnedLandChunk(owner, chunkName, chunkX, chunkZ) :
-                    new RentedLandChunk(owner, chunkName, chunkX, chunkZ, rentTime);
+            AbstractChunk chunk = rentTime == -1 ?
+                    new OwnedChunk(owner, chunkName, chunkX, chunkZ) :
+                    new RentedChunk(owner, chunkName, chunkX, chunkZ, rentTime);
 
-            landChunks.add(landChunk);
+            chunks.add(chunk);
         }
 
-        return landChunks;
+        return chunks;
     }
 
 }

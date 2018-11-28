@@ -5,8 +5,8 @@ The powerhouse of Rinecraft.
 * Playtime and AFK system to counteract boosting playtime.
 
 ### WIP Features
-* Rentable land
-* Buyable land
+* Rentable and buyable land.
+* `RinePlayer` wrapper class for `Player`. 
 
 ### Known Bugs
 * Players can rent the same space using a different name.

@@ -8,21 +8,21 @@ import java.util.TreeSet;
 
 public final class RentTimeManager {
 
-    private final SortedSet<RentedLandChunk> rentedLandChunks = Collections.synchronizedSortedSet(new TreeSet<>());
+    private final SortedSet<RentedChunk> rentedChunks = Collections.synchronizedSortedSet(new TreeSet<>());
 
     public RentTimeManager(JavaPlugin plugin) {
         new RentTimeRunnable().runTaskTimer(plugin, RentTimeRunnable.DELAY_TICKS, RentTimeRunnable.DELAY_TICKS);
     }
 
-    protected SortedSet<RentedLandChunk> getRentedLandChunks() {
-        return rentedLandChunks;
+    protected SortedSet<RentedChunk> getRentedChunks() {
+        return rentedChunks;
     }
 
-    public void add(RentedLandChunk rentedLandChunk) {
-        rentedLandChunks.add(rentedLandChunk);
+    public void add(RentedChunk rentedChunk) {
+        rentedChunks.add(rentedChunk);
     }
 
-    public void remove(RentedLandChunk rentedLandChunk) {
-        rentedLandChunks.remove(rentedLandChunk);
+    public void remove(RentedChunk rentedChunk) {
+        rentedChunks.remove(rentedChunk);
     }
 }

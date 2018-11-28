@@ -2,7 +2,7 @@ package net.ttdev.rinecore.land;
 
 import net.ttdev.rinecore.Main;
 import net.ttdev.rinecore.util.FileDirectories;
-import net.ttdev.rinecore.util.LandChunkHelper;
+import net.ttdev.rinecore.util.RPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.UUID;
 
 public final class LandCommand implements CommandExecutor {
 
@@ -22,7 +21,7 @@ public final class LandCommand implements CommandExecutor {
             return true;
         }
 
-        Player player = (Player) sender;
+        final Player player = (Player) sender;
 
         if (args.length == 0) {
 
@@ -38,14 +37,23 @@ public final class LandCommand implements CommandExecutor {
 
             Chunk chunk = player.getLocation().getChunk();
 
-            UUID owner = player.getUniqueId();
+            final RPlayer rPlayer = new RPlayer(player.getUniqueId());
+            if (rPlayer.ownsChunk(chunk)) {
+                player.sendMessage(ChatColor.RED + "You already own this chunk.");
+                return true;
+            }
 
-            String rentName;
+            String chunkName;
             try {
-                rentName = args[1];
+                chunkName = args[1];
             } catch (Exception e) {
                 player.sendMessage(ChatColor.RED + "You need to provide a name for the rented land.");
                 player.sendMessage(ChatColor.RED + "Example: /land rent <name> <time: day, week, month>");
+                return true;
+            }
+
+            if (rPlayer.ownsChunkWithName(chunkName)) {
+                player.sendMessage(ChatColor.RED + "You already own a chunk with that name.");
                 return true;
             }
 
@@ -60,16 +68,10 @@ public final class LandCommand implements CommandExecutor {
 
             int chunkX = chunk.getX();
             int chunkZ = chunk.getZ();
-            RentedLandChunk rentedLandChunk = new RentedLandChunk(owner, rentName, chunkX, chunkZ, rentTime.getSeconds());
+            RentedChunk rentedChunk = new RentedChunk(player.getUniqueId(), chunkName, chunkX, chunkZ, rentTime.getSeconds());
 
-            String message = LandChunkHelper.checkNameAndOwnage(player.getUniqueId(), rentedLandChunk);
-            if (message != null) {
-                player.sendMessage(message);
-                return true;
-            }
-
-            Main.getRentTimeManager().add(rentedLandChunk);
-            Serializer.serializeLandChunk(FileDirectories.LAND_CHUNKS, rentedLandChunk);
+            Main.getRentTimeManager().add(rentedChunk);
+            Serializer.serializeLandChunk(FileDirectories.LAND_CHUNKS, rentedChunk);
 
             player.sendMessage(ChatColor.GREEN + "Land rent successful.");
 
@@ -80,27 +82,30 @@ public final class LandCommand implements CommandExecutor {
 
             Chunk chunk = player.getLocation().getChunk();
 
-            UUID owner = player.getUniqueId();
+            final RPlayer rPlayer = new RPlayer(player.getUniqueId());
+            if (rPlayer.ownsChunk(chunk)) {
+                player.sendMessage(ChatColor.RED + "You already own this chunk.");
+                return true;
+            }
 
-            String landName;
+            String chunkName;
             try {
-                landName = args[1];
+                chunkName = args[1];
             } catch (Exception e) {
                 player.sendMessage(ChatColor.RED + "You need to provide a name for the bought chunk.");
                 return true;
             }
 
-            int chunkX = chunk.getX();
-            int chunkZ = chunk.getZ();
-            LandChunk ownedLandChunk = new OwnedLandChunk(owner, landName, chunkX, chunkZ);
-
-            String message = LandChunkHelper.checkNameAndOwnage(player.getUniqueId(), ownedLandChunk);
-            if (message != null) {
-                player.sendMessage(message);
+            if (rPlayer.ownsChunkWithName(chunkName)) {
+                player.sendMessage(ChatColor.RED + "You already own a chunk with that name.");
                 return true;
             }
 
-            Serializer.serializeLandChunk(FileDirectories.LAND_CHUNKS, ownedLandChunk);
+            int chunkX = chunk.getX();
+            int chunkZ = chunk.getZ();
+            AbstractChunk ownedChunk = new OwnedChunk(player.getUniqueId(), chunkName, chunkX, chunkZ);
+
+            Serializer.serializeLandChunk(FileDirectories.LAND_CHUNKS, ownedChunk);
 
             player.sendMessage(ChatColor.GREEN + "Land purchase successful.");
 
@@ -109,10 +114,10 @@ public final class LandCommand implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("list")) {
 
-            List<LandChunk> landChunks;
-            landChunks = Serializer.deserializeLandChunks(player.getUniqueId(), FileDirectories.LAND_CHUNKS);
+            List<AbstractChunk> chunks;
+            chunks = Serializer.deserializeLandChunks(player.getUniqueId(), FileDirectories.LAND_CHUNKS);
 
-            landChunks.forEach(landChunk -> player.sendMessage("Name: " + landChunk.getName() +
+            chunks.forEach(landChunk -> player.sendMessage("Name: " + landChunk.getName() +
                     ", X: " + landChunk.getChunkX() +
                     ", Z: " + landChunk.getChunkZ()));
 

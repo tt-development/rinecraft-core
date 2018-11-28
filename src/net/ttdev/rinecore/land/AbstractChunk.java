@@ -7,21 +7,21 @@ import java.util.UUID;
  * This class is strictly used for containing data and isn't intended
  * for other purposes.
  */
-public abstract class LandChunk {
+public abstract class AbstractChunk {
 
     private UUID owner;
     private String name;
     private int chunkX, chunkZ;
 
     /**
-     * Create a new <code>net.ttdev.rinecore.land.LandChunk</code> located at <code>chunkX</code>
+     * Create a new <code>net.ttdev.rinecore.land.AbstractChunk</code> located at <code>chunkX</code>
      * and <code>chunkZ</code>, and owned by <code>owner</code>.
      * @param owner
      * @param name
      * @param chunkX
      * @param chunkZ
      */
-    public LandChunk(UUID owner, String name, int chunkX, int chunkZ) {
+    public AbstractChunk(UUID owner, String name, int chunkX, int chunkZ) {
         this.owner = owner;
         this.name = name;
         this.chunkX = chunkX;
@@ -44,18 +44,14 @@ public abstract class LandChunk {
         return chunkZ;
     }
 
-    public boolean sameName(LandChunk otherChunk) {
-        return otherChunk.name.equalsIgnoreCase(name);
-    }
-
     @Override
     public boolean equals(Object obj) {
 
-        if (!(obj instanceof LandChunk)) {
-            return false;
+        if (obj instanceof AbstractChunk) {
+            AbstractChunk otherChunk = (AbstractChunk) obj;
+            return otherChunk.owner.equals(owner) && otherChunk.name.equals(name);
         }
 
-        LandChunk otherChunk = (LandChunk) obj;
-        return otherChunk.owner.equals(owner) && otherChunk.name.equals(name);
+        return false;
     }
 }

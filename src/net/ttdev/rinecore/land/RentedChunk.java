@@ -2,11 +2,11 @@ package net.ttdev.rinecore.land;
 
 import java.util.UUID;
 
-public final class RentedLandChunk extends LandChunk implements Comparable<RentedLandChunk> {
+public final class RentedChunk extends AbstractChunk implements Comparable<RentedChunk> {
 
     private int timeLeft;
 
-    public RentedLandChunk(UUID owner, String name, int chunkX, int chunkZ, int timeLeft) {
+    public RentedChunk(UUID owner, String name, int chunkX, int chunkZ, int timeLeft) {
         super(owner, name, chunkX, chunkZ);
         this.timeLeft = timeLeft;
     }
@@ -20,7 +20,7 @@ public final class RentedLandChunk extends LandChunk implements Comparable<Rente
     }
 
     @Override
-    public int compareTo(RentedLandChunk landChunk) {
+    public int compareTo(RentedChunk landChunk) {
         return Integer.compare(landChunk.timeLeft, timeLeft);
     }
 }

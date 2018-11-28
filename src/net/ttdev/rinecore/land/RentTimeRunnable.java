@@ -14,9 +14,9 @@ public class RentTimeRunnable extends BukkitRunnable {
     @Override
     public void run() {
 
-        final SortedSet<RentedLandChunk> rentedLandChunks = Main.getRentTimeManager().getRentedLandChunks();
-        rentedLandChunks.forEach(landChunk -> landChunk.adjustTimeLeft(-DELAY_SECONDS));
+        final SortedSet<RentedChunk> rentedChunks = Main.getRentTimeManager().getRentedChunks();
+        rentedChunks.forEach(landChunk -> landChunk.adjustTimeLeft(-DELAY_SECONDS));
 
-        Serializer.serializeLandChunks(FileDirectories.LAND_CHUNKS, rentedLandChunks);
+        Serializer.serializeLandChunks(FileDirectories.LAND_CHUNKS, rentedChunks);
     }
 }

@@ -4,3 +4,4 @@ version: 1.0
 depends: [API]
 commands:
   playtime:
+  land:

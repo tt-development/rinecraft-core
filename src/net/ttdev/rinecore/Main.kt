@@ -1,5 +1,6 @@
 package net.ttdev.rinecore
 
+import net.ttdev.rinecore.economy.LandCommand
 import net.ttdev.rinecore.playtime.getFormattedPlaytime
 import net.ttdev.rinecore.playtime.getPlaytimeHours
 import net.ttdev.rinecore.playtime.startPlaytimeClock
@@ -32,6 +33,8 @@ class Main : JavaPlugin(), Listener {
 
         /* Start checking for AFK players */
         AFKThread().runTaskTimer(this, 20, 20)
+
+        server.getPluginCommand("land").executor = LandCommand()
 
         logger.info("$name enabled.")
     }

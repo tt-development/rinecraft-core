@@ -2,6 +2,7 @@ package net.ttdev.rinecore;
 
 import net.ttdev.rinecore.land.LandCommand;
 import net.ttdev.rinecore.land.RentTimeManager;
+import net.ttdev.rinecore.land.SignChangeEventHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -37,6 +38,7 @@ public class Main extends JavaPlugin implements Listener {
         saveDefaultConfig();
 
         getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new SignChangeEventHandler(), this);
 
         startPlaytimeClock();
 

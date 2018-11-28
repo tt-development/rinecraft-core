@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.SortedSet;
 
-public class RentTimeRunnable extends BukkitRunnable {
+public final class RentTimeRunnable extends BukkitRunnable {
 
     public static final int DELAY_SECONDS = 10;
     public static final int DELAY_TICKS = 20 * DELAY_SECONDS;

@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.economy;
+package net.ttdev.rinecore.land;
 
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ public abstract class LandChunk {
     private int chunkX, chunkZ;
 
     /**
-     * Create a new <code>LandChunk</code> located at <code>chunkX</code>
+     * Create a new <code>net.ttdev.rinecore.land.LandChunk</code> located at <code>chunkX</code>
      * and <code>chunkZ</code>, and owned by <code>owner</code>.
      * @param owner
      * @param name

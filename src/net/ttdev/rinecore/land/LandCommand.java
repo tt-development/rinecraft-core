@@ -1,5 +1,6 @@
-package net.ttdev.rinecore.economy;
+package net.ttdev.rinecore.land;
 
+import net.ttdev.rinecore.Main;
 import net.ttdev.rinecore.util.FileDirectories;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -11,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.UUID;
 
-public class LandCommand implements CommandExecutor {
+public final class LandCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -24,7 +25,8 @@ public class LandCommand implements CommandExecutor {
 
         if (args.length == 0) {
 
-            player.sendMessage("/land rent <name> <time: day, week, month>- Rent the chunk you are standing in.");
+            player.sendMessage("/land rent <name> <time: day, week, month> - Rent the chunk you are standing in.");
+            player.sendMessage("/land unrent <name> - Stop renting a chunk of land.");
             player.sendMessage("/land buy <name> - Buy the chunk you are standing in.");
             player.sendMessage("/land list - List all owned land.");
 
@@ -57,8 +59,9 @@ public class LandCommand implements CommandExecutor {
 
             int chunkX = chunk.getX();
             int chunkZ = chunk.getZ();
-            LandChunk landChunk = new RentedLandChunk(owner, rentName, chunkX, chunkZ, rentTime.getSeconds());
+            RentedLandChunk landChunk = new RentedLandChunk(owner, rentName, chunkX, chunkZ, rentTime.getSeconds());
 
+            Main.getRentManager().add(landChunk);
             Serializer.serializeLandChunk(FileDirectories.LAND_CHUNKS, landChunk);
 
             player.sendMessage(ChatColor.GREEN + "Land rent successful.");

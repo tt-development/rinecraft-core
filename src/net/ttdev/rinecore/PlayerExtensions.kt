@@ -1,5 +1,7 @@
-package net.ttdev.rinecore.playtime
+package net.ttdev.rinecore
 
+import net.ttdev.rinecore.Main.getPlaytimeEntries
+import net.ttdev.rinecore.Main.setPlaytimeEntries
 import org.bukkit.entity.Player
 import java.time.Duration
 
@@ -35,7 +37,8 @@ fun Player.setPlaytimeSeconds(seconds: Long) {
     * playtime */
     entries[uniqueId] = seconds
 
-    /* Replace players old entry with new entry */
+    /* Replace players old entry with new entry
+     */
     setPlaytimeEntries(entries)
 }
 

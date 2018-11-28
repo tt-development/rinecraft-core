@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.economy;
+package net.ttdev.rinecore.land;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -6,7 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.util.*;
 
-public class Serializer {
+public final class Serializer {
 
     private static void serializeLandChunk(String filePath, LandChunk landChunk, boolean saveFile) {
 
@@ -71,7 +71,7 @@ public class Serializer {
     }
 
     /**
-     * Reads and returns a <code>List</code> of all the <code>LandChunk</code>'s owned by <code>owner</code>.
+     * Reads and returns a <code>List</code> of all the <code>net.ttdev.rinecore.land.LandChunk</code>'s owned by <code>owner</code>.
      *
      * @param owner
      * @param filePath

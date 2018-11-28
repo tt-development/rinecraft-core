@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.economy;
+package net.ttdev.rinecore.land;
 
 public enum RentTime {
 

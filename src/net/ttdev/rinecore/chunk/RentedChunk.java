@@ -20,7 +20,7 @@ public final class RentedChunk extends AbstractChunk implements Comparable<Rente
         return timeLeft;
     }
 
-    public void adjustTimeLeft(int amount) {
+    public void adjustTime(int amount) {
         timeLeft += amount;
     }
 

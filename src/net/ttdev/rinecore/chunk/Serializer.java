@@ -84,7 +84,10 @@ public final class Serializer {
 
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
-        final ConfigurationSection section = configuration.getConfigurationSection(owner.toString());
+        final ConfigurationSection section = configuration.isConfigurationSection(owner.toString()) ?
+                configuration.getConfigurationSection(owner.toString()) :
+                configuration.createSection(owner.toString());
+
         final Set<String> keySet = section.getKeys(false);
         final Iterator<String> keyIterator = keySet.iterator();
 

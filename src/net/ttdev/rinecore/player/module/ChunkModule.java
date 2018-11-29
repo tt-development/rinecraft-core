@@ -1,9 +1,10 @@
-package net.ttdev.rinecore.util;
+package net.ttdev.rinecore.player.module;
 
 import net.ttdev.rinecore.chunk.AbstractChunk;
 import net.ttdev.rinecore.chunk.OwnedChunk;
 import net.ttdev.rinecore.chunk.RentedChunk;
 import net.ttdev.rinecore.chunk.Serializer;
+import net.ttdev.rinecore.util.FileDirectories;
 import org.bukkit.Chunk;
 
 import java.util.Collection;
@@ -11,11 +12,13 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public final class RPlayer {
+public final class ChunkModule extends RPlayerModule implements IChunkModule {
 
     private final List<AbstractChunk> chunks;
 
-    public RPlayer(UUID uuid) {
+    public ChunkModule(UUID uuid) {
+        super(uuid);
+
         chunks = Serializer.loadChunks(uuid, FileDirectories.LAND_CHUNKS);
         System.out.println("Loaded " + chunks.size() + " chunks for " + uuid + ".");
     }

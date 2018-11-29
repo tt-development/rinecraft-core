@@ -6,7 +6,9 @@ import org.bukkit.entity.Player;
 
 public class MessageScheduler {
 
-    public static void sendLater(String message, Player player, long delay) {
+    public static final int TWO_SECONDS = 20 * 2;
+
+    public static void sendLater(String message, long delay, Player player) {
         Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> player.sendMessage(message), delay);
     }
 }

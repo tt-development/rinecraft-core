@@ -1,8 +1,8 @@
 package net.ttdev.rinecore.chunk;
 
 import net.ttdev.rinecore.Main;
+import net.ttdev.rinecore.player.RPlayer;
 import net.ttdev.rinecore.util.FileDirectories;
-import net.ttdev.rinecore.util.RPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public final class LandCommand implements CommandExecutor {
+public final class ChunkCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

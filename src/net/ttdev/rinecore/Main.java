@@ -1,6 +1,6 @@
 package net.ttdev.rinecore;
 
-import net.ttdev.rinecore.chunk.LandCommand;
+import net.ttdev.rinecore.chunk.ChunkCommand;
 import net.ttdev.rinecore.chunk.PlayerInteractEventHandler;
 import net.ttdev.rinecore.chunk.RentTimeManager;
 import net.ttdev.rinecore.chunk.SignChangeEventHandler;
@@ -49,7 +49,7 @@ public class Main extends JavaPlugin implements Listener {
         /* Start checking for AFK players */
         new AFKThread().runTaskTimer(this, 20, 20);
 
-        getServer().getPluginCommand("chunk").setExecutor(new LandCommand());
+        getServer().getPluginCommand("chunk").setExecutor(new ChunkCommand());
 
         getLogger().info(getName() + " enabled.");
     }

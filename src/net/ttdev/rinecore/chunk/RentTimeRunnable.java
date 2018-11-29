@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.land;
+package net.ttdev.rinecore.chunk;
 
 import net.ttdev.rinecore.Main;
 import net.ttdev.rinecore.util.FileDirectories;

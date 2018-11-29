@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.land;
+package net.ttdev.rinecore.chunk;
 
 import java.util.UUID;
 

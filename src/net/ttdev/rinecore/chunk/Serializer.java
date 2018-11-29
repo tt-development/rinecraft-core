@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.land;
+package net.ttdev.rinecore.chunk;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -69,7 +69,7 @@ public final class Serializer {
     }
 
     /**
-     * Reads and returns a <code>List</code> of all the <code>net.ttdev.rinecore.land.AbstractChunk</code>'s owned by <code>owner</code>.
+     * Reads and returns a <code>List</code> of all the <code>net.ttdev.rinecore.chunk.AbstractChunk</code>'s owned by <code>owner</code>.
      *
      * @param owner
      * @param filePath

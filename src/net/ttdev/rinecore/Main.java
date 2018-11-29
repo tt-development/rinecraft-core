@@ -1,8 +1,9 @@
 package net.ttdev.rinecore;
 
-import net.ttdev.rinecore.land.LandCommand;
-import net.ttdev.rinecore.land.RentTimeManager;
-import net.ttdev.rinecore.land.SignChangeEventHandler;
+import net.ttdev.rinecore.chunk.LandCommand;
+import net.ttdev.rinecore.chunk.PlayerInteractEventHandler;
+import net.ttdev.rinecore.chunk.RentTimeManager;
+import net.ttdev.rinecore.chunk.SignChangeEventHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -39,6 +40,7 @@ public class Main extends JavaPlugin implements Listener {
 
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new SignChangeEventHandler(), this);
+        getServer().getPluginManager().registerEvents(new PlayerInteractEventHandler(), this);
 
         startPlaytimeClock();
 
@@ -47,7 +49,7 @@ public class Main extends JavaPlugin implements Listener {
         /* Start checking for AFK players */
         new AFKThread().runTaskTimer(this, 20, 20);
 
-        getServer().getPluginCommand("land").setExecutor(new LandCommand());
+        getServer().getPluginCommand("chunk").setExecutor(new LandCommand());
 
         getLogger().info(getName() + " enabled.");
     }

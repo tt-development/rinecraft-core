@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.land;
+package net.ttdev.rinecore.chunk;
 
 import org.bukkit.plugin.java.JavaPlugin;
 

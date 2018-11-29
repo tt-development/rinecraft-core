@@ -1,8 +1,11 @@
-package net.ttdev.rinecore.land;
+package net.ttdev.rinecore.chunk;
 
 import java.util.function.Function;
 
 public final class InteractiveSign<T, U, V> {
+
+    public static final InteractiveSign<String, Integer, RentTime> RENT =
+            new InteractiveSign<>("[Rent]", String::toString, Integer::parseInt, RentTime::valueOf);
 
     private final String header;
     private final Function<String, T> firstParser;

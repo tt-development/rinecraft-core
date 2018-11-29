@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.land;
+package net.ttdev.rinecore.chunk;
 
 import net.ttdev.rinecore.Main;
 import net.ttdev.rinecore.util.FileDirectories;
@@ -25,10 +25,10 @@ public final class LandCommand implements CommandExecutor {
 
         if (args.length == 0) {
 
-            player.sendMessage("/land rent <name> <time: day, week, month> - Rent the chunk you are standing in.");
-            player.sendMessage("/land unrent <name> - Stop renting a chunk of land.");
-            player.sendMessage("/land buy <name> - Buy the chunk you are standing in.");
-            player.sendMessage("/land list - List all owned land.");
+            player.sendMessage("/chunk rent <name> <time: day, week, month> - Rent the chunk you are standing in.");
+            player.sendMessage("/chunk unrent <name> - Stop renting a chunk of chunk.");
+            player.sendMessage("/chunk buy <name> - Buy the chunk you are standing in.");
+            player.sendMessage("/chunk list - List all owned chunk.");
 
             return true;
         }
@@ -47,8 +47,8 @@ public final class LandCommand implements CommandExecutor {
             try {
                 chunkName = args[1];
             } catch (Exception e) {
-                player.sendMessage(ChatColor.RED + "You need to provide a name for the rented land.");
-                player.sendMessage(ChatColor.RED + "Example: /land rent <name> <time: day, week, month>");
+                player.sendMessage(ChatColor.RED + "You need to provide a name for the rented chunk.");
+                player.sendMessage(ChatColor.RED + "Example: /chunk rent <name> <time: day, week, month>");
                 return true;
             }
 
@@ -61,8 +61,8 @@ public final class LandCommand implements CommandExecutor {
             try {
                 rentTime = RentTime.valueOf(args[2].toUpperCase());
             } catch (Exception e) {
-                player.sendMessage(ChatColor.RED + "You need to provide a time for the rented land.");
-                player.sendMessage(ChatColor.RED + "Example: /land rent <name> <time: day, week, month>");
+                player.sendMessage(ChatColor.RED + "You need to provide a time for the rented chunk.");
+                player.sendMessage(ChatColor.RED + "Example: /chunk rent <name> <time: day, week, month>");
                 return true;
             }
 

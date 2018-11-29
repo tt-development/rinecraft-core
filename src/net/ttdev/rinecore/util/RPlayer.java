@@ -1,9 +1,9 @@
 package net.ttdev.rinecore.util;
 
-import net.ttdev.rinecore.land.AbstractChunk;
-import net.ttdev.rinecore.land.OwnedChunk;
-import net.ttdev.rinecore.land.RentedChunk;
-import net.ttdev.rinecore.land.Serializer;
+import net.ttdev.rinecore.chunk.AbstractChunk;
+import net.ttdev.rinecore.chunk.OwnedChunk;
+import net.ttdev.rinecore.chunk.RentedChunk;
+import net.ttdev.rinecore.chunk.Serializer;
 import org.bukkit.Chunk;
 
 import java.util.Collection;

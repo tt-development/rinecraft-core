@@ -6,6 +6,10 @@ import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+/**
+ * Keeps track of all rented chunks on the server and decreasing
+ * the time of each rent every ten seconds.
+ */
 public final class RentTimeManager {
 
     private final SortedSet<RentedChunk> rentedChunks = Collections.synchronizedSortedSet(new TreeSet<>());

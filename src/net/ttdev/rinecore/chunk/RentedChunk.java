@@ -2,6 +2,11 @@ package net.ttdev.rinecore.chunk;
 
 import java.util.UUID;
 
+/**
+ * A chunk that can be bought temporarily. Every rented chunk
+ * must have a player associated with that who is the temporary
+ * owner of the chunk.
+ */
 public final class RentedChunk extends AbstractChunk implements Comparable<RentedChunk> {
 
     private int timeLeft;

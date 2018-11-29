@@ -16,7 +16,7 @@ public final class RPlayer {
     private final List<AbstractChunk> chunks;
 
     public RPlayer(UUID uuid) {
-        chunks = Serializer.deserializeLandChunks(uuid, FileDirectories.LAND_CHUNKS);
+        chunks = Serializer.loadChunks(uuid, FileDirectories.LAND_CHUNKS);
         System.out.println("Loaded " + chunks.size() + " chunks for " + uuid + ".");
     }
 

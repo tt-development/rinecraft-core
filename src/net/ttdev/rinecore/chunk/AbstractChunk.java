@@ -14,7 +14,7 @@ public abstract class AbstractChunk {
     private int chunkX, chunkZ;
 
     /**
-     * Create a new <code>net.ttdev.rinecore.chunk.AbstractChunk</code> located at <code>chunkX</code>
+     * Create a new <code>AbstractChunk</code> located at <code>chunkX</code>
      * and <code>chunkZ</code>, and owned by <code>owner</code>.
      * @param owner
      * @param name

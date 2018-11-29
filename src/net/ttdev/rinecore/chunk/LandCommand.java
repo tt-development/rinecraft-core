@@ -71,9 +71,9 @@ public final class LandCommand implements CommandExecutor {
             RentedChunk rentedChunk = new RentedChunk(player.getUniqueId(), chunkName, chunkX, chunkZ, rentTime.getSeconds());
 
             Main.getRentTimeManager().add(rentedChunk);
-            Serializer.serializeLandChunk(FileDirectories.LAND_CHUNKS, rentedChunk);
+            Serializer.saveChunk(FileDirectories.LAND_CHUNKS, rentedChunk);
 
-            player.sendMessage(ChatColor.GREEN + "Land rent successful.");
+            player.sendMessage(ChatColor.GREEN + "Chunk rent successful.");
 
             return true;
         }
@@ -105,9 +105,9 @@ public final class LandCommand implements CommandExecutor {
             int chunkZ = chunk.getZ();
             AbstractChunk ownedChunk = new OwnedChunk(player.getUniqueId(), chunkName, chunkX, chunkZ);
 
-            Serializer.serializeLandChunk(FileDirectories.LAND_CHUNKS, ownedChunk);
+            Serializer.saveChunk(FileDirectories.LAND_CHUNKS, ownedChunk);
 
-            player.sendMessage(ChatColor.GREEN + "Land purchase successful.");
+            player.sendMessage(ChatColor.GREEN + "Chunk purchase successful.");
 
             return true;
         }
@@ -115,7 +115,7 @@ public final class LandCommand implements CommandExecutor {
         if (args[0].equalsIgnoreCase("list")) {
 
             List<AbstractChunk> chunks;
-            chunks = Serializer.deserializeLandChunks(player.getUniqueId(), FileDirectories.LAND_CHUNKS);
+            chunks = Serializer.loadChunks(player.getUniqueId(), FileDirectories.LAND_CHUNKS);
 
             chunks.forEach(landChunk -> player.sendMessage("Name: " + landChunk.getName() +
                     ", X: " + landChunk.getChunkX() +

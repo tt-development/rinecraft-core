@@ -6,9 +6,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.util.*;
 
+/**
+ * Used for saving and loading various custom objects.
+ */
 public final class Serializer {
 
-    private static void serializeLandChunk(String filePath, AbstractChunk chunk, YamlConfiguration configuration) {
+    private static void saveChunk(String filePath, AbstractChunk chunk, YamlConfiguration configuration) {
 
         final String sectionId = chunk.getOwner().toString();
 
@@ -31,12 +34,12 @@ public final class Serializer {
 
     }
 
-    public static void serializeLandChunk(String filePath, AbstractChunk chunk) {
+    public static void saveChunk(String filePath, AbstractChunk chunk) {
 
         File file = new File(filePath);
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
-        serializeLandChunk(filePath, chunk, configuration);
+        saveChunk(filePath, chunk, configuration);
 
         try {
             configuration.save(file);
@@ -52,13 +55,13 @@ public final class Serializer {
      * @param filePath
      * @param landChunks
      */
-    public static void serializeLandChunks(String filePath, Collection<? extends AbstractChunk> landChunks) {
+    public static void saveChunks(String filePath, Collection<? extends AbstractChunk> landChunks) {
 
         File file = new File(filePath);
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
         for (AbstractChunk chunk : landChunks) {
-            serializeLandChunk(filePath, chunk, configuration);
+            saveChunk(filePath, chunk, configuration);
         }
 
         try {
@@ -75,7 +78,7 @@ public final class Serializer {
      * @param filePath
      * @return
      */
-    public static List<AbstractChunk> deserializeLandChunks(UUID owner, String filePath) {
+    public static List<AbstractChunk> loadChunks(UUID owner, String filePath) {
 
         File file = new File(filePath);
 

@@ -131,7 +131,7 @@ public class Main extends JavaPlugin implements Listener {
      * all previous existing entries.
      */
     public static void setPlaytimeEntries(Map<UUID, Long> entries) {
-        Map<String, Long> remapped = new HashMap<>();
+        Map<String, Long> remapped;
         remapped = entries.keySet().stream().collect(Collectors.toMap(UUID::toString, entries::get));
         DataStore dataStore = new DataStore(instance);
         dataStore.saveMap("playtimes", remapped);

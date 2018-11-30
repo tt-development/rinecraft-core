@@ -1,10 +1,10 @@
 package net.ttdev.rinecore;
 
-import net.ttdev.rinecore.chunk.PlayerInteractEventHandler;
 import net.ttdev.rinecore.chunk.RentTimeManager;
-import net.ttdev.rinecore.chunk.SignChangeEventHandler;
 import net.ttdev.rinecore.command.BalanceCommand;
 import net.ttdev.rinecore.command.ChunkCommand;
+import net.ttdev.rinecore.event.PlayerInteractEventHandler;
+import net.ttdev.rinecore.event.SignChangeEventHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

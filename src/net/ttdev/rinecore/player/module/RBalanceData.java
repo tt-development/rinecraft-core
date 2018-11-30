@@ -27,7 +27,7 @@ public final class RBalanceData extends RPlayerModule implements IBalanceData {
 
     @Override
     public int changeBalance(int amount) {
-        Serializer.saveBalance(uuid, balance = amount, FileDirectories.BALANCES);
+        Serializer.saveBalance(uuid, balance += amount, FileDirectories.BALANCES);
         return balance;
     }
 }

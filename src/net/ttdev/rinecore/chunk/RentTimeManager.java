@@ -18,7 +18,7 @@ public final class RentTimeManager {
         new RentTimeRunnable().runTaskTimer(plugin, RentTimeRunnable.DELAY_TICKS, RentTimeRunnable.DELAY_TICKS);
     }
 
-    protected SortedSet<RentedChunk> getRentedChunks() {
+    public SortedSet<RentedChunk> getRentedChunks() {
         return rentedChunks;
     }
 

@@ -19,13 +19,13 @@ public final class RChunkData extends RPlayerModule implements IChunkData {
     public RChunkData(UUID uuid) {
         super(uuid);
 
-        chunks = Serializer.loadChunks(uuid, FileDirectories.LAND_CHUNKS);
+        chunks = Serializer.loadChunks(uuid, FileDirectories.CHUNKS);
         System.out.println("Loaded " + chunks.size() + " chunks for " + uuid + ".");
     }
 
     @Override
     public void addChunk(AbstractChunk chunk) {
-        Serializer.saveChunk(FileDirectories.LAND_CHUNKS, chunk);
+        Serializer.saveChunk(FileDirectories.CHUNKS, chunk);
     }
 
     public boolean ownsChunk(Chunk chunk) {

@@ -9,22 +9,22 @@ import java.util.function.Function;
  * that can convert the sign lines into their preferred types
  * for easy use.
  *
- * @param <T>
- * @param <U>
- * @param <V>
+ * @param <A>
+ * @param <B>
+ * @param <C>
  */
-public abstract class InteractiveSign<T, U, V> {
+abstract class InteractiveSign<A, B, C> {
 
-    protected final T firstValue;
-    protected final U secondValue;
-    protected final V thirdValue;
+    final A firstValue;
+    final B secondValue;
+    final C thirdValue;
 
-    InteractiveSign(String header, Function<String, T> firstParser, Function<String, U> secondParser, Function<String, V> thirdParser, String... lines) throws UnsupportedSignException {
+    InteractiveSign(String header, Function<String, A> firstParser, Function<String, B> secondParser, Function<String, C> thirdParser, String... lines) throws UnsupportedSignException {
 
         if (!lines[0].equals(header)) throw new UnsupportedSignException();
 
-        this.firstValue = firstParser.apply(lines[1]);
-        this.secondValue = secondParser.apply(lines[2]);
-        this.thirdValue = thirdParser.apply(lines[3]);
+        firstValue = firstParser != null ? firstParser.apply(lines[1]) : null;
+        secondValue = secondParser != null ? secondParser.apply(lines[2]) : null;
+        thirdValue = thirdParser != null ? thirdParser.apply(lines[3]) : null;
     }
 }

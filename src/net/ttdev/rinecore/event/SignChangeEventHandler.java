@@ -1,5 +1,6 @@
-package net.ttdev.rinecore.chunk;
+package net.ttdev.rinecore.event;
 
+import net.ttdev.rinecore.chunk.sign.BuySign;
 import net.ttdev.rinecore.chunk.sign.RentSign;
 import net.ttdev.rinecore.chunk.sign.UnsupportedSignException;
 import org.bukkit.ChatColor;
@@ -22,17 +23,15 @@ public final class SignChangeEventHandler implements Listener {
         final RentSign rentSign;
         try {
             rentSign = new RentSign(event.getLines());
-        } catch (UnsupportedSignException e) {
-            e.printStackTrace();
-            player.sendMessage(ChatColor.RED + "Error while creating sign.");
-            player.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
+            player.sendMessage(ChatColor.GREEN + "Rent plot " + rentSign.getName() + " created.");
             return;
-        }
+        } catch (UnsupportedSignException e) { }
 
-        player.sendMessage(ChatColor.GREEN + "Rent plot created:");
-        player.sendMessage("Name: " + rentSign.getName());
-        player.sendMessage("Cost: " + rentSign.getCost());
-        player.sendMessage("Time: " + rentSign.getRentTime());
+        final BuySign buySign;
+        try {
+            buySign = new BuySign(event.getLines());
+            player.sendMessage(ChatColor.GREEN + "Buy plot " + buySign.getName() + " created.");
+        } catch (UnsupportedSignException e) { }
 
     }
 }

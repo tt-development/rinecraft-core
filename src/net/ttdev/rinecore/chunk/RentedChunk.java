@@ -21,6 +21,10 @@ public final class RentedChunk extends AbstractChunk implements Comparable<Rente
         this.duration = duration;
     }
 
+    public boolean hasExpired() {
+        return duration <= 0;
+    }
+
     public int getDuration() {
         return duration;
     }

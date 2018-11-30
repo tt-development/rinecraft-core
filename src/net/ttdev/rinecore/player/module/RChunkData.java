@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public final class RChunkData extends RPlayerModule implements IChunkData {
+public final class RChunkData extends RPlayerData implements IChunkData {
 
     private final List<AbstractChunk> chunks;
 

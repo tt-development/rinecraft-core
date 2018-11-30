@@ -48,20 +48,28 @@ public final class Serializer {
         }
     }
 
-    private static void saveChunk(String filePath, AbstractChunk chunk, YamlConfiguration configuration) {
+    private static void saveChunk(AbstractChunk chunk, YamlConfiguration configuration) {
 
         final String sectionId = chunk.getOwner().toString();
         final ConfigurationSection section = searchConfigurationSection(sectionId, configuration);
-        final ConfigurationSection chunkSection = searchConfigurationSection(chunk.getName(), section);
+        ConfigurationSection chunkSection = searchConfigurationSection(chunk.getName(), section);
+
+        if (chunk instanceof RentedChunk) {
+
+            final RentedChunk rentedChunk = (RentedChunk) chunk;
+
+            if (rentedChunk.hasExpired()) {
+                section.set(chunk.getName(), null);
+                System.out.println("Deleting rent: " + chunk.getName() + ".");
+                return;
+            }
+
+            final int duration = rentedChunk.getDuration();
+            chunkSection.set("duration", duration);
+        }
 
         chunkSection.set("chunk-x", chunk.getChunkX());
         chunkSection.set("chunk-z", chunk.getChunkZ());
-
-        if (chunk instanceof RentedChunk) {
-            final RentedChunk rentedChunk = (RentedChunk) chunk;
-            final int timeLeft = rentedChunk.getDuration();
-            chunkSection.set("time-left", timeLeft);
-        }
 
     }
 
@@ -70,7 +78,7 @@ public final class Serializer {
         File file = new File(filePath);
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
-        saveChunk(filePath, chunk, configuration);
+        saveChunk(chunk, configuration);
 
         try {
             configuration.save(file);
@@ -92,7 +100,7 @@ public final class Serializer {
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
         for (AbstractChunk chunk : landChunks) {
-            saveChunk(filePath, chunk, configuration);
+            saveChunk(chunk, configuration);
         }
 
         try {

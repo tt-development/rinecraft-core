@@ -2,11 +2,11 @@ package net.ttdev.rinecore.player.module;
 
 import java.util.UUID;
 
-public abstract class RPlayerModule {
+public abstract class RPlayerData {
 
     protected final UUID uuid;
 
-    RPlayerModule(UUID uuid) {
+    RPlayerData(UUID uuid) {
         this.uuid = uuid;
     }
 }

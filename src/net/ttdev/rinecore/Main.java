@@ -1,10 +1,11 @@
 package net.ttdev.rinecore;
 
-import net.ttdev.rinecore.chunk.RentTimeManager;
+import net.ttdev.rinecore.chunk.RentTimeDeductor;
 import net.ttdev.rinecore.command.BalanceCommand;
 import net.ttdev.rinecore.command.ChunkCommand;
-import net.ttdev.rinecore.event.PlayerInteractEventHandler;
-import net.ttdev.rinecore.event.SignChangeEventHandler;
+import net.ttdev.rinecore.eventhandler.ChunkExpireEventHandler;
+import net.ttdev.rinecore.eventhandler.PlayerInteractEventHandler;
+import net.ttdev.rinecore.eventhandler.SignChangeEventHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -30,7 +31,6 @@ import java.util.stream.Collectors;
 public class Main extends JavaPlugin implements Listener {
 
     private static Main instance;
-    private static RentTimeManager rentTimeManager;
 
     @Override
     public void onEnable() {
@@ -40,12 +40,13 @@ public class Main extends JavaPlugin implements Listener {
         saveDefaultConfig();
 
         getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new ChunkExpireEventHandler(), this);
         getServer().getPluginManager().registerEvents(new SignChangeEventHandler(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractEventHandler(), this);
 
         startPlaytimeClock();
 
-        rentTimeManager = new RentTimeManager(this);
+        new RentTimeDeductor().runTaskTimer(this, RentTimeDeductor.DELAY_TICKS, RentTimeDeductor.DELAY_TICKS);
 
         /* Start checking for AFK players */
         new AFKThread().runTaskTimer(this, 20, 20);
@@ -90,10 +91,6 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         return true;
-    }
-
-    public static RentTimeManager getRentTimeManager() {
-        return rentTimeManager;
     }
 
     public static Main getInstance() {

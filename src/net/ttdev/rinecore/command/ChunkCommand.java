@@ -1,6 +1,5 @@
 package net.ttdev.rinecore.command;
 
-import net.ttdev.rinecore.Main;
 import net.ttdev.rinecore.chunk.AbstractChunk;
 import net.ttdev.rinecore.chunk.OwnedChunk;
 import net.ttdev.rinecore.chunk.RentTime;
@@ -50,7 +49,7 @@ public final class ChunkCommand implements CommandExecutor {
                 chunkName = args[1];
             } catch (Exception e) {
                 player.sendMessage(ChatColor.RED + "You need to provide a name for the rented chunk.");
-                player.sendMessage(ChatColor.RED + "Example: /chunk rent <name> <time: day, week, month>");
+                player.sendMessage(ChatColor.RED + "Example: /chunk rent <name> <day, week, month>");
                 return true;
             }
 
@@ -59,20 +58,27 @@ public final class ChunkCommand implements CommandExecutor {
                 return true;
             }
 
-            RentTime rentTime;
+            RentTime rentTime = null;
             try {
                 rentTime = RentTime.valueOf(args[2].toUpperCase());
+            } catch (Exception e) { }
+
+            int rentTimeSeconds;
+            try {
+                rentTimeSeconds = Integer.parseInt(args[2]);
             } catch (Exception e) {
+                e.printStackTrace();
                 player.sendMessage(ChatColor.RED + "You need to provide a time for the rented chunk.");
-                player.sendMessage(ChatColor.RED + "Example: /chunk rent <name> <time: day, week, month>");
+                player.sendMessage(ChatColor.RED + "Example: /chunk rent <name> <[seconds] or [day, week, month]>");
                 return true;
             }
 
             int chunkX = chunk.getX();
             int chunkZ = chunk.getZ();
-            RentedChunk rentedChunk = new RentedChunk(player.getUniqueId(), chunkName, chunkX, chunkZ, rentTime);
+            RentedChunk rentedChunk = rentTime == null ?
+                    new RentedChunk(player.getUniqueId(), chunkName, chunkX, chunkZ, rentTimeSeconds) :
+                    new RentedChunk(player.getUniqueId(), chunkName, chunkX, chunkZ, rentTime);
 
-            Main.getRentTimeManager().add(rentedChunk);
             Serializer.saveChunk(FileDirectories.CHUNKS, rentedChunk);
 
             player.sendMessage(ChatColor.GREEN + "Chunk rent successful.");

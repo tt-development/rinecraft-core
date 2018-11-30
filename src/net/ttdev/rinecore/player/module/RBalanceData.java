@@ -5,7 +5,7 @@ import net.ttdev.rinecore.util.FileDirectories;
 
 import java.util.UUID;
 
-public final class RBalanceData extends RPlayerModule implements IBalanceData {
+public final class RBalanceData extends RPlayerData implements IBalanceData {
 
     private int balance;
 

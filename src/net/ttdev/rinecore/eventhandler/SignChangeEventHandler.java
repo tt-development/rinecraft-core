@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.event;
+package net.ttdev.rinecore.eventhandler;
 
 import net.ttdev.rinecore.chunk.sign.BuySign;
 import net.ttdev.rinecore.chunk.sign.RentSign;

@@ -5,6 +5,7 @@ import net.ttdev.rinecore.chunk.sign.UnsupportedSignException;
 import net.ttdev.rinecore.player.RPlayer;
 import net.ttdev.rinecore.util.MessageScheduler;
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -38,26 +39,24 @@ public class PlayerInteractEventHandler implements Listener {
             return;
         }
 
+        final Chunk chunk = block.getLocation().getChunk();
+
         final Player player = event.getPlayer();
 
         player.sendMessage("Renting property...");
 
         final RPlayer rPlayer = new RPlayer(player.getUniqueId());
+
         if (rPlayer.getBalance() < rentSign.getCost()) {
             MessageScheduler.sendLater(ChatColor.RED + "You don't have enough money for this purchase.", MessageScheduler.TWO_SECONDS, player);
-            return;
-        }
-
-        if (rPlayer.ownsChunk(block.getLocation().getChunk())) {
+        } else if (rPlayer.ownsChunk(chunk)) {
             MessageScheduler.sendLater(ChatColor.RED + "You already own this chunk.", MessageScheduler.TWO_SECONDS, player);
-            return;
-        }
-
-        if (rPlayer.ownsChunkWithName(rentSign.getName())) {
+        } else if (rPlayer.ownsChunkWithName(rentSign.getName())) {
             MessageScheduler.sendLater(ChatColor.RED + "You already own a chunk with this name.", MessageScheduler.TWO_SECONDS, player);
-            return;
+        } else {
+            rPlayer.addChunk(new RentedChunk(rPlayer.getUUID(), rentSign.getName(), chunk.getX(), chunk.getZ(), rentSign.getRentTime()));
+            rPlayer.changeBalance(-rentSign.getCost());
+            MessageScheduler.sendLater(ChatColor.GREEN + "Rent successful!", MessageScheduler.TWO_SECONDS, player);
         }
-
-        MessageScheduler.sendLater(ChatColor.GREEN + "Rent successful!", MessageScheduler.TWO_SECONDS, player);
     }
 }

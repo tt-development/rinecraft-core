@@ -1,6 +1,7 @@
 package net.ttdev.rinecore.chunk;
 
 import net.ttdev.rinecore.Main;
+import net.ttdev.rinecore.file.Serializer;
 import net.ttdev.rinecore.util.FileDirectories;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -15,7 +16,7 @@ public final class RentTimeRunnable extends BukkitRunnable {
     public void run() {
 
         final SortedSet<RentedChunk> rentedChunks = Main.getRentTimeManager().getRentedChunks();
-        rentedChunks.forEach(landChunk -> landChunk.adjustTime(-DELAY_SECONDS));
+        rentedChunks.forEach(landChunk -> landChunk.changeDuration(-DELAY_SECONDS));
 
         Serializer.saveChunks(FileDirectories.LAND_CHUNKS, rentedChunks);
     }

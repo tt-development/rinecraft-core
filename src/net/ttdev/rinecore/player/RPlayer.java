@@ -3,62 +3,74 @@ package net.ttdev.rinecore.player;
 import net.ttdev.rinecore.chunk.AbstractChunk;
 import net.ttdev.rinecore.chunk.OwnedChunk;
 import net.ttdev.rinecore.chunk.RentedChunk;
-import net.ttdev.rinecore.player.module.BalanceModule;
-import net.ttdev.rinecore.player.module.ChunkModule;
-import net.ttdev.rinecore.player.module.IBalanceModule;
-import net.ttdev.rinecore.player.module.IChunkModule;
+import net.ttdev.rinecore.player.module.IBalanceData;
+import net.ttdev.rinecore.player.module.IChunkData;
+import net.ttdev.rinecore.player.module.RBalanceData;
+import net.ttdev.rinecore.player.module.RChunkData;
 import org.bukkit.Chunk;
 
 import java.util.Collection;
 import java.util.UUID;
 
-public final class RPlayer implements IChunkModule, IBalanceModule {
+public final class RPlayer implements IChunkData, IBalanceData {
 
-    private final BalanceModule balanceModule;
-    private final ChunkModule chunkModule;
+    private final UUID uuid;
+
+    private final RBalanceData balanceData;
+    private final RChunkData chunkData;
 
     public RPlayer(UUID uuid) {
-        balanceModule = new BalanceModule(uuid);
-        chunkModule = new ChunkModule(uuid);
+        this.uuid = uuid;
+        balanceData = new RBalanceData(uuid);
+        chunkData = new RChunkData(uuid);
+    }
+
+    public UUID getUUID() {
+        return uuid;
     }
 
     @Override
     public int getBalance() {
-        return balanceModule.getBalance();
+        return balanceData.getBalance();
     }
 
     @Override
     public int setBalance(int amount) {
-        return balanceModule.setBalance(amount);
+        return balanceData.setBalance(amount);
     }
 
     @Override
     public int changeBalance(int amount) {
-        return balanceModule.changeBalance(amount);
+        return balanceData.changeBalance(amount);
+    }
+
+    @Override
+    public void addChunk(AbstractChunk chunk) {
+        chunkData.addChunk(chunk);
     }
 
     @Override
     public boolean ownsChunk(Chunk chunk) {
-        return chunkModule.ownsChunk(chunk);
+        return chunkData.ownsChunk(chunk);
     }
 
     @Override
     public boolean ownsChunkWithName(String name) {
-        return chunkModule.ownsChunkWithName(name);
+        return chunkData.ownsChunkWithName(name);
     }
 
     @Override
     public Collection<AbstractChunk> getChunks() {
-        return chunkModule.getChunks();
+        return chunkData.getChunks();
     }
 
     @Override
     public Collection<RentedChunk> getRentedLandChunks() {
-        return chunkModule.getRentedLandChunks();
+        return chunkData.getRentedLandChunks();
     }
 
     @Override
     public Collection<OwnedChunk> getBoughtLandChunks() {
-        return chunkModule.getBoughtLandChunks();
+        return chunkData.getBoughtLandChunks();
     }
 }

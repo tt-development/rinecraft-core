@@ -1,6 +1,6 @@
 package net.ttdev.rinecore.player.module;
 
-public interface IBalanceModule {
+public interface IBalanceData {
 
     int getBalance();
 

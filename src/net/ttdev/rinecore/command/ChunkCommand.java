@@ -1,6 +1,11 @@
-package net.ttdev.rinecore.chunk;
+package net.ttdev.rinecore.command;
 
 import net.ttdev.rinecore.Main;
+import net.ttdev.rinecore.chunk.AbstractChunk;
+import net.ttdev.rinecore.chunk.OwnedChunk;
+import net.ttdev.rinecore.chunk.RentTime;
+import net.ttdev.rinecore.chunk.RentedChunk;
+import net.ttdev.rinecore.file.Serializer;
 import net.ttdev.rinecore.player.RPlayer;
 import net.ttdev.rinecore.util.FileDirectories;
 import org.bukkit.ChatColor;
@@ -30,10 +35,7 @@ public final class ChunkCommand implements CommandExecutor {
             player.sendMessage("/chunk buy <name> - Buy the chunk you are standing in.");
             player.sendMessage("/chunk list - List all owned chunk.");
 
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("rent")) {
+        } else if (args[0].equalsIgnoreCase("rent")) {
 
             Chunk chunk = player.getLocation().getChunk();
 
@@ -68,17 +70,14 @@ public final class ChunkCommand implements CommandExecutor {
 
             int chunkX = chunk.getX();
             int chunkZ = chunk.getZ();
-            RentedChunk rentedChunk = new RentedChunk(player.getUniqueId(), chunkName, chunkX, chunkZ, rentTime.getSeconds());
+            RentedChunk rentedChunk = new RentedChunk(player.getUniqueId(), chunkName, chunkX, chunkZ, rentTime);
 
             Main.getRentTimeManager().add(rentedChunk);
             Serializer.saveChunk(FileDirectories.LAND_CHUNKS, rentedChunk);
 
             player.sendMessage(ChatColor.GREEN + "Chunk rent successful.");
 
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("buy")) {
+        } else if (args[0].equalsIgnoreCase("buy")) {
 
             Chunk chunk = player.getLocation().getChunk();
 
@@ -109,10 +108,7 @@ public final class ChunkCommand implements CommandExecutor {
 
             player.sendMessage(ChatColor.GREEN + "Chunk purchase successful.");
 
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("list")) {
+        } else if (args[0].equalsIgnoreCase("list")) {
 
             List<AbstractChunk> chunks;
             chunks = Serializer.loadChunks(player.getUniqueId(), FileDirectories.LAND_CHUNKS);
@@ -120,10 +116,8 @@ public final class ChunkCommand implements CommandExecutor {
             chunks.forEach(landChunk -> player.sendMessage("Name: " + landChunk.getName() +
                     ", X: " + landChunk.getChunkX() +
                     ", Z: " + landChunk.getChunkZ()));
-
-            return true;
         }
 
-        return false;
+        return true;
     }
 }

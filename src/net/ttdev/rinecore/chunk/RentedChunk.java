@@ -9,23 +9,28 @@ import java.util.UUID;
  */
 public final class RentedChunk extends AbstractChunk implements Comparable<RentedChunk> {
 
-    private int timeLeft;
+    private int duration;
 
-    public RentedChunk(UUID owner, String name, int chunkX, int chunkZ, int timeLeft) {
+    public RentedChunk(UUID owner, String name, int chunkX, int chunkZ, RentTime rentTime) {
         super(owner, name, chunkX, chunkZ);
-        this.timeLeft = timeLeft;
+        this.duration = rentTime.getSeconds();
     }
 
-    public int getTimeLeft() {
-        return timeLeft;
+    public RentedChunk(UUID owner, String name, int chunkX, int chunkZ, int duration) {
+        super(owner, name, chunkX, chunkZ);
+        this.duration = duration;
     }
 
-    public void adjustTime(int amount) {
-        timeLeft += amount;
+    public int getDuration() {
+        return duration;
+    }
+
+    public void changeDuration(int amount) {
+        duration += amount;
     }
 
     @Override
     public int compareTo(RentedChunk landChunk) {
-        return Integer.compare(landChunk.timeLeft, timeLeft);
+        return Integer.compare(landChunk.duration, duration);
     }
 }

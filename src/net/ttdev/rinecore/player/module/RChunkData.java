@@ -3,7 +3,7 @@ package net.ttdev.rinecore.player.module;
 import net.ttdev.rinecore.chunk.AbstractChunk;
 import net.ttdev.rinecore.chunk.OwnedChunk;
 import net.ttdev.rinecore.chunk.RentedChunk;
-import net.ttdev.rinecore.chunk.Serializer;
+import net.ttdev.rinecore.file.Serializer;
 import net.ttdev.rinecore.util.FileDirectories;
 import org.bukkit.Chunk;
 
@@ -12,15 +12,20 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public final class ChunkModule extends RPlayerModule implements IChunkModule {
+public final class RChunkData extends RPlayerModule implements IChunkData {
 
     private final List<AbstractChunk> chunks;
 
-    public ChunkModule(UUID uuid) {
+    public RChunkData(UUID uuid) {
         super(uuid);
 
         chunks = Serializer.loadChunks(uuid, FileDirectories.LAND_CHUNKS);
         System.out.println("Loaded " + chunks.size() + " chunks for " + uuid + ".");
+    }
+
+    @Override
+    public void addChunk(AbstractChunk chunk) {
+        Serializer.saveChunk(FileDirectories.LAND_CHUNKS, chunk);
     }
 
     public boolean ownsChunk(Chunk chunk) {

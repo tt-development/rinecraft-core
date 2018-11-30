@@ -1,9 +1,10 @@
 package net.ttdev.rinecore;
 
-import net.ttdev.rinecore.chunk.ChunkCommand;
 import net.ttdev.rinecore.chunk.PlayerInteractEventHandler;
 import net.ttdev.rinecore.chunk.RentTimeManager;
 import net.ttdev.rinecore.chunk.SignChangeEventHandler;
+import net.ttdev.rinecore.command.BalanceCommand;
+import net.ttdev.rinecore.command.ChunkCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -49,6 +50,7 @@ public class Main extends JavaPlugin implements Listener {
         /* Start checking for AFK players */
         new AFKThread().runTaskTimer(this, 20, 20);
 
+        getServer().getPluginCommand("balance").setExecutor(new BalanceCommand());
         getServer().getPluginCommand("chunk").setExecutor(new ChunkCommand());
 
         getLogger().info(getName() + " enabled.");

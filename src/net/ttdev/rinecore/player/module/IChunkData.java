@@ -7,7 +7,9 @@ import org.bukkit.Chunk;
 
 import java.util.Collection;
 
-public interface IChunkModule {
+public interface IChunkData {
+
+    void addChunk(AbstractChunk chunk);
 
     boolean ownsChunk(Chunk chunk);
 

@@ -1,5 +1,8 @@
-package net.ttdev.rinecore.chunk;
+package net.ttdev.rinecore.file;
 
+import net.ttdev.rinecore.chunk.AbstractChunk;
+import net.ttdev.rinecore.chunk.OwnedChunk;
+import net.ttdev.rinecore.chunk.RentedChunk;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -11,24 +14,52 @@ import java.util.*;
  */
 public final class Serializer {
 
+    private static ConfigurationSection searchConfigurationSection(String sectionId, ConfigurationSection section) {
+        return section.isConfigurationSection(sectionId) ?
+                section.getConfigurationSection(sectionId) :
+                section.createSection(sectionId);
+    }
+
+    public static Integer loadBalance(UUID uuid, String filePath) {
+
+        final File file = new File(filePath);
+        final YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+
+        final String sectionId = uuid.toString();
+        final ConfigurationSection section = searchConfigurationSection(sectionId, configuration);
+
+        return section.getInt("balance");
+    }
+
+    public static void saveBalance(UUID uuid, int amount, String filePath) {
+
+        final File file = new File(filePath);
+        final YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+
+        final String sectionId = uuid.toString();
+        final ConfigurationSection section = searchConfigurationSection(sectionId, configuration);
+
+        section.set("balance", amount);
+
+        try {
+            configuration.save(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private static void saveChunk(String filePath, AbstractChunk chunk, YamlConfiguration configuration) {
 
         final String sectionId = chunk.getOwner().toString();
-
-        final ConfigurationSection section = configuration.isConfigurationSection(sectionId) ?
-                configuration.getConfigurationSection(sectionId) :
-                configuration.createSection(sectionId);
-
-        final ConfigurationSection chunkSection = section.isConfigurationSection(chunk.getName()) ?
-                section.getConfigurationSection(chunk.getName()) :
-                section.createSection(chunk.getName());
+        final ConfigurationSection section = searchConfigurationSection(sectionId, configuration);
+        final ConfigurationSection chunkSection = searchConfigurationSection(chunk.getName(), section);
 
         chunkSection.set("chunk-x", chunk.getChunkX());
         chunkSection.set("chunk-z", chunk.getChunkZ());
 
         if (chunk instanceof RentedChunk) {
             final RentedChunk rentedChunk = (RentedChunk) chunk;
-            final int timeLeft = rentedChunk.getTimeLeft();
+            final int timeLeft = rentedChunk.getDuration();
             chunkSection.set("time-left", timeLeft);
         }
 
@@ -72,7 +103,7 @@ public final class Serializer {
     }
 
     /**
-     * Reads and returns a <code>List</code> of all the <code>net.ttdev.rinecore.chunk.AbstractChunk</code>'s owned by <code>owner</code>.
+     * Reads and returns a <code>List</code> of all the <code>AbstractChunk</code>'s owned by <code>owner</code>.
      *
      * @param owner
      * @param filePath
@@ -84,9 +115,7 @@ public final class Serializer {
 
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
-        final ConfigurationSection section = configuration.isConfigurationSection(owner.toString()) ?
-                configuration.getConfigurationSection(owner.toString()) :
-                configuration.createSection(owner.toString());
+        final ConfigurationSection section = searchConfigurationSection(owner.toString(), configuration);
 
         final Set<String> keySet = section.getKeys(false);
         final Iterator<String> keyIterator = keySet.iterator();
@@ -98,10 +127,10 @@ public final class Serializer {
             final int chunkX = chunkSection.getInt("chunk-x");
             final int chunkZ = chunkSection.getInt("chunk-z");
 
-            final int rentTime = chunkSection.getInt("rent-time", -1);
-            AbstractChunk chunk = rentTime == -1 ?
+            final int duration = chunkSection.getInt("duration", -1);
+            AbstractChunk chunk = duration == -1 ?
                     new OwnedChunk(owner, chunkName, chunkX, chunkZ) :
-                    new RentedChunk(owner, chunkName, chunkX, chunkZ, rentTime);
+                    new RentedChunk(owner, chunkName, chunkX, chunkZ, duration);
 
             chunks.add(chunk);
         }

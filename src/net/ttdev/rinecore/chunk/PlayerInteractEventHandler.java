@@ -1,9 +1,12 @@
 package net.ttdev.rinecore.chunk;
 
+import net.ttdev.rinecore.api.sign.RentSignClickedEvent;
 import net.ttdev.rinecore.chunk.sign.RentSign;
 import net.ttdev.rinecore.chunk.sign.UnsupportedSignException;
 import net.ttdev.rinecore.player.RPlayer;
 import net.ttdev.rinecore.util.MessageScheduler;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -28,7 +31,7 @@ public class PlayerInteractEventHandler implements Listener {
         if (block.getType() != Material.SIGN_POST) {
             return;
         }
-
+        
         Sign sign = (Sign) block.getState();
 
         final RentSign rentSign;
@@ -38,10 +41,18 @@ public class PlayerInteractEventHandler implements Listener {
             e.printStackTrace();
             return;
         }
+        
+        // RentSignClickedEvent
+        final Player player = event.getPlayer();
+        RentSignClickedEvent rentSignClickedEvent = new RentSignClickedEvent(rentSign, player);
+        Bukkit.getPluginManager().callEvent(rentSignClickedEvent);
+        
+        if (rentSignClickedEvent.isCancelled()) {
+        	event.setCancelled(true);
+        	return;
+        }
 
         final Chunk chunk = block.getLocation().getChunk();
-
-        final Player player = event.getPlayer();
 
         player.sendMessage("Renting property...");
 

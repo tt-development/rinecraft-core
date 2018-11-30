@@ -1,7 +1,10 @@
 package net.ttdev.rinecore.chunk;
 
+import net.ttdev.rinecore.api.sign.RentSignCreatedEvent;
 import net.ttdev.rinecore.chunk.sign.RentSign;
 import net.ttdev.rinecore.chunk.sign.UnsupportedSignException;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,6 +30,15 @@ public final class SignChangeEventHandler implements Listener {
             player.sendMessage(ChatColor.RED + "Error while creating sign.");
             player.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
             return;
+        }
+        
+        // RentSignCreatedEvent
+        RentSignCreatedEvent rentSignCreatedEvent = new RentSignCreatedEvent(rentSign, player);
+        Bukkit.getPluginManager().callEvent(rentSignCreatedEvent);
+        
+        if (rentSignCreatedEvent.isCancelled()) {
+        	event.setCancelled(true);
+        	return;
         }
 
         player.sendMessage(ChatColor.GREEN + "Rent plot created:");

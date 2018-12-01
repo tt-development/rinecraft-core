@@ -7,16 +7,16 @@ import java.util.UUID;
  * must have a player associated with that who is the temporary
  * owner of the chunk.
  */
-public final class RentedChunk extends AbstractChunk implements Comparable<RentedChunk> {
+public final class RentedLand extends AbstractLand implements Comparable<RentedLand> {
 
     private int duration;
 
-    public RentedChunk(UUID owner, String name, int chunkX, int chunkZ, RentTime rentTime) {
+    public RentedLand(UUID owner, String name, int chunkX, int chunkZ, RentTime rentTime) {
         super(owner, name, chunkX, chunkZ);
         this.duration = rentTime.getSeconds();
     }
 
-    public RentedChunk(UUID owner, String name, int chunkX, int chunkZ, int duration) {
+    public RentedLand(UUID owner, String name, int chunkX, int chunkZ, int duration) {
         super(owner, name, chunkX, chunkZ);
         this.duration = duration;
     }
@@ -34,7 +34,7 @@ public final class RentedChunk extends AbstractChunk implements Comparable<Rente
     }
 
     @Override
-    public int compareTo(RentedChunk landChunk) {
+    public int compareTo(RentedLand landChunk) {
         return Integer.compare(landChunk.duration, duration);
     }
 }

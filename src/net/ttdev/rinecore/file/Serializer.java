@@ -1,8 +1,8 @@
 package net.ttdev.rinecore.file;
 
-import net.ttdev.rinecore.chunk.AbstractChunk;
-import net.ttdev.rinecore.chunk.OwnedChunk;
-import net.ttdev.rinecore.chunk.RentedChunk;
+import net.ttdev.rinecore.chunk.AbstractLand;
+import net.ttdev.rinecore.chunk.OwnedLand;
+import net.ttdev.rinecore.chunk.RentedLand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -48,15 +48,15 @@ public final class Serializer {
         }
     }
 
-    private static void saveChunk(AbstractChunk chunk, YamlConfiguration configuration) {
+    private static void saveChunk(AbstractLand chunk, YamlConfiguration configuration) {
 
         final String sectionId = chunk.getOwner().toString();
         final ConfigurationSection section = searchConfigurationSection(sectionId, configuration);
         ConfigurationSection chunkSection = searchConfigurationSection(chunk.getName(), section);
 
-        if (chunk instanceof RentedChunk) {
+        if (chunk instanceof RentedLand) {
 
-            final RentedChunk rentedChunk = (RentedChunk) chunk;
+            final RentedLand rentedChunk = (RentedLand) chunk;
 
             if (rentedChunk.hasExpired()) {
                 section.set(chunk.getName(), null);
@@ -73,7 +73,7 @@ public final class Serializer {
 
     }
 
-    public static void saveChunk(String filePath, AbstractChunk chunk) {
+    public static void saveChunk(String filePath, AbstractLand chunk) {
 
         File file = new File(filePath);
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
@@ -94,12 +94,12 @@ public final class Serializer {
      * @param filePath
      * @param landChunks
      */
-    public static void saveChunks(String filePath, Collection<? extends AbstractChunk> landChunks) {
+    public static void saveChunks(String filePath, Collection<? extends AbstractLand> landChunks) {
 
         File file = new File(filePath);
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
-        for (AbstractChunk chunk : landChunks) {
+        for (AbstractLand chunk : landChunks) {
             saveChunk(chunk, configuration);
         }
 
@@ -117,7 +117,7 @@ public final class Serializer {
      * @param filePath
      * @return
      */
-    public static List<AbstractChunk> loadChunks(UUID owner, String filePath) {
+    public static List<AbstractLand> loadChunks(UUID owner, String filePath) {
 
         File file = new File(filePath);
 
@@ -128,7 +128,7 @@ public final class Serializer {
         final Set<String> keySet = section.getKeys(false);
         final Iterator<String> keyIterator = keySet.iterator();
 
-        final List<AbstractChunk> chunks = new ArrayList<>();
+        final List<AbstractLand> chunks = new ArrayList<>();
         while (keyIterator.hasNext()) {
             final String chunkName = keyIterator.next();
             final ConfigurationSection chunkSection = section.getConfigurationSection(chunkName);
@@ -136,9 +136,9 @@ public final class Serializer {
             final int chunkZ = chunkSection.getInt("chunk-z");
 
             final int duration = chunkSection.getInt("duration", -1);
-            AbstractChunk chunk = duration == -1 ?
-                    new OwnedChunk(owner, chunkName, chunkX, chunkZ) :
-                    new RentedChunk(owner, chunkName, chunkX, chunkZ, duration);
+            AbstractLand chunk = duration == -1 ?
+                    new OwnedLand(owner, chunkName, chunkX, chunkZ) :
+                    new RentedLand(owner, chunkName, chunkX, chunkZ, duration);
 
             chunks.add(chunk);
         }

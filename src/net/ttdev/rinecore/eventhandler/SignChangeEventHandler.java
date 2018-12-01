@@ -1,10 +1,12 @@
 package net.ttdev.rinecore.eventhandler;
 
+import net.ttdev.rinecore.chunk.LandType;
+import net.ttdev.rinecore.chunk.event.LandCreateEvent;
 import net.ttdev.rinecore.chunk.sign.BuySign;
 import net.ttdev.rinecore.chunk.sign.RentSign;
 import net.ttdev.rinecore.chunk.sign.UnsupportedSignException;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
@@ -18,19 +20,16 @@ public final class SignChangeEventHandler implements Listener {
             return;
         }
 
-        final Player player = event.getPlayer();
-
-        final RentSign rentSign;
         try {
-            rentSign = new RentSign(event.getLines());
-            player.sendMessage(ChatColor.GREEN + "Rent plot " + rentSign.getName() + " created.");
-            return;
+            new RentSign(event.getLines());
+            final Location location = event.getBlock().getLocation();
+            Bukkit.getServer().getPluginManager().callEvent(new LandCreateEvent(LandType.RENT, location, event.getPlayer()));
         } catch (UnsupportedSignException e) { }
 
-        final BuySign buySign;
         try {
-            buySign = new BuySign(event.getLines());
-            player.sendMessage(ChatColor.GREEN + "Buy plot " + buySign.getName() + " created.");
+            new BuySign(event.getLines());
+            final Location location = event.getBlock().getLocation();
+            Bukkit.getServer().getPluginManager().callEvent(new LandCreateEvent(LandType.BUY, location, event.getPlayer()));
         } catch (UnsupportedSignException e) { }
 
     }

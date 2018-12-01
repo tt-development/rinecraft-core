@@ -3,7 +3,7 @@ package net.ttdev.rinecore;
 import net.ttdev.rinecore.chunk.RentTimeDeductor;
 import net.ttdev.rinecore.command.BalanceCommand;
 import net.ttdev.rinecore.command.ChunkCommand;
-import net.ttdev.rinecore.eventhandler.ChunkExpireEventHandler;
+import net.ttdev.rinecore.eventhandler.LandEventHandler;
 import net.ttdev.rinecore.eventhandler.PlayerInteractEventHandler;
 import net.ttdev.rinecore.eventhandler.SignChangeEventHandler;
 import org.bukkit.Bukkit;
@@ -40,9 +40,9 @@ public class Main extends JavaPlugin implements Listener {
         saveDefaultConfig();
 
         getServer().getPluginManager().registerEvents(this, this);
-        getServer().getPluginManager().registerEvents(new ChunkExpireEventHandler(), this);
         getServer().getPluginManager().registerEvents(new SignChangeEventHandler(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractEventHandler(), this);
+        getServer().getPluginManager().registerEvents(new LandEventHandler(), this);
 
         startPlaytimeClock();
 

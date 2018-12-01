@@ -13,7 +13,7 @@ import java.util.function.Function;
  * @param <B>
  * @param <C>
  */
-abstract class InteractiveSign<A, B, C> {
+public abstract class InteractiveSign<A, B, C> {
 
     final A firstValue;
     final B secondValue;

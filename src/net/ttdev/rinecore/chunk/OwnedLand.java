@@ -7,9 +7,9 @@ import java.util.UUID;
  * Every chunk must have a player associated with it who
  * is the <code>owner</code> of the chunk.
  */
-public final class OwnedChunk extends AbstractChunk {
+public final class OwnedLand extends AbstractLand {
 
-    public OwnedChunk(UUID owner, String name, int chunkX, int chunkZ) {
+    public OwnedLand(UUID owner, String name, int chunkX, int chunkZ) {
         super(owner, name, chunkX, chunkZ);
     }
 }

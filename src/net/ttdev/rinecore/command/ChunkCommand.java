@@ -1,9 +1,9 @@
 package net.ttdev.rinecore.command;
 
-import net.ttdev.rinecore.chunk.AbstractChunk;
-import net.ttdev.rinecore.chunk.OwnedChunk;
+import net.ttdev.rinecore.chunk.AbstractLand;
+import net.ttdev.rinecore.chunk.OwnedLand;
 import net.ttdev.rinecore.chunk.RentTime;
-import net.ttdev.rinecore.chunk.RentedChunk;
+import net.ttdev.rinecore.chunk.RentedLand;
 import net.ttdev.rinecore.file.Serializer;
 import net.ttdev.rinecore.player.RPlayer;
 import net.ttdev.rinecore.util.FileDirectories;
@@ -75,9 +75,9 @@ public final class ChunkCommand implements CommandExecutor {
 
             int chunkX = chunk.getX();
             int chunkZ = chunk.getZ();
-            RentedChunk rentedChunk = rentTime == null ?
-                    new RentedChunk(player.getUniqueId(), chunkName, chunkX, chunkZ, rentTimeSeconds) :
-                    new RentedChunk(player.getUniqueId(), chunkName, chunkX, chunkZ, rentTime);
+            RentedLand rentedChunk = rentTime == null ?
+                    new RentedLand(player.getUniqueId(), chunkName, chunkX, chunkZ, rentTimeSeconds) :
+                    new RentedLand(player.getUniqueId(), chunkName, chunkX, chunkZ, rentTime);
 
             Serializer.saveChunk(FileDirectories.CHUNKS, rentedChunk);
 
@@ -108,7 +108,7 @@ public final class ChunkCommand implements CommandExecutor {
 
             int chunkX = chunk.getX();
             int chunkZ = chunk.getZ();
-            AbstractChunk ownedChunk = new OwnedChunk(player.getUniqueId(), chunkName, chunkX, chunkZ);
+            AbstractLand ownedChunk = new OwnedLand(player.getUniqueId(), chunkName, chunkX, chunkZ);
 
             Serializer.saveChunk(FileDirectories.CHUNKS, ownedChunk);
 
@@ -116,7 +116,7 @@ public final class ChunkCommand implements CommandExecutor {
 
         } else if (args[0].equalsIgnoreCase("list")) {
 
-            List<AbstractChunk> chunks;
+            List<AbstractLand> chunks;
             chunks = Serializer.loadChunks(player.getUniqueId(), FileDirectories.CHUNKS);
 
             chunks.forEach(landChunk -> player.sendMessage("Name: " + landChunk.getName() +

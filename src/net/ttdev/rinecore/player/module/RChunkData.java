@@ -1,8 +1,8 @@
 package net.ttdev.rinecore.player.module;
 
-import net.ttdev.rinecore.chunk.AbstractChunk;
-import net.ttdev.rinecore.chunk.OwnedChunk;
-import net.ttdev.rinecore.chunk.RentedChunk;
+import net.ttdev.rinecore.chunk.AbstractLand;
+import net.ttdev.rinecore.chunk.OwnedLand;
+import net.ttdev.rinecore.chunk.RentedLand;
 import net.ttdev.rinecore.file.Serializer;
 import net.ttdev.rinecore.util.FileDirectories;
 import org.bukkit.Chunk;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public final class RChunkData extends RPlayerData implements IChunkData {
 
-    private final List<AbstractChunk> chunks;
+    private final List<AbstractLand> chunks;
 
     public RChunkData(UUID uuid) {
         super(uuid);
@@ -24,7 +24,7 @@ public final class RChunkData extends RPlayerData implements IChunkData {
     }
 
     @Override
-    public void addChunk(AbstractChunk chunk) {
+    public void addChunk(AbstractLand chunk) {
         Serializer.saveChunk(FileDirectories.CHUNKS, chunk);
     }
 
@@ -36,21 +36,21 @@ public final class RChunkData extends RPlayerData implements IChunkData {
         return chunks.stream().anyMatch(e -> e.getName().equalsIgnoreCase(name));
     }
 
-    public Collection<AbstractChunk> getChunks() {
+    public Collection<AbstractLand> getChunks() {
         return chunks;
     }
 
-    public Collection<RentedChunk> getRentedLandChunks() {
+    public Collection<RentedLand> getRentedLandChunks() {
         return chunks.stream()
-                .filter(landChunk -> landChunk instanceof RentedChunk)
-                .map(landChunk -> (RentedChunk) landChunk)
+                .filter(landChunk -> landChunk instanceof RentedLand)
+                .map(landChunk -> (RentedLand) landChunk)
                 .collect(Collectors.toList());
     }
 
-    public Collection<OwnedChunk> getBoughtLandChunks() {
+    public Collection<OwnedLand> getBoughtLandChunks() {
         return chunks.stream()
-                .filter(landChunk -> landChunk instanceof OwnedChunk)
-                .map(landChunk -> (OwnedChunk) landChunk)
+                .filter(landChunk -> landChunk instanceof OwnedLand)
+                .map(landChunk -> (OwnedLand) landChunk)
                 .collect(Collectors.toList());
     }
 }

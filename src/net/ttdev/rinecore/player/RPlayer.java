@@ -1,8 +1,8 @@
 package net.ttdev.rinecore.player;
 
-import net.ttdev.rinecore.chunk.AbstractChunk;
-import net.ttdev.rinecore.chunk.OwnedChunk;
-import net.ttdev.rinecore.chunk.RentedChunk;
+import net.ttdev.rinecore.chunk.AbstractLand;
+import net.ttdev.rinecore.chunk.OwnedLand;
+import net.ttdev.rinecore.chunk.RentedLand;
 import net.ttdev.rinecore.player.module.IBalanceData;
 import net.ttdev.rinecore.player.module.IChunkData;
 import net.ttdev.rinecore.player.module.RBalanceData;
@@ -45,7 +45,7 @@ public final class RPlayer implements IChunkData, IBalanceData {
     }
 
     @Override
-    public void addChunk(AbstractChunk chunk) {
+    public void addChunk(AbstractLand chunk) {
         chunkData.addChunk(chunk);
     }
 
@@ -60,17 +60,17 @@ public final class RPlayer implements IChunkData, IBalanceData {
     }
 
     @Override
-    public Collection<AbstractChunk> getChunks() {
+    public Collection<AbstractLand> getChunks() {
         return chunkData.getChunks();
     }
 
     @Override
-    public Collection<RentedChunk> getRentedLandChunks() {
+    public Collection<RentedLand> getRentedLandChunks() {
         return chunkData.getRentedLandChunks();
     }
 
     @Override
-    public Collection<OwnedChunk> getBoughtLandChunks() {
+    public Collection<OwnedLand> getBoughtLandChunks() {
         return chunkData.getBoughtLandChunks();
     }
 }

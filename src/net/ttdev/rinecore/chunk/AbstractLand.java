@@ -7,10 +7,11 @@ import java.util.UUID;
  * This class is strictly used for containing data and isn't intended
  * for other purposes.
  */
-public abstract class AbstractChunk {
+public abstract class AbstractLand {
 
     private UUID owner;
     private String name;
+    private String world;
     private int chunkX, chunkZ;
 
     /**
@@ -21,7 +22,7 @@ public abstract class AbstractChunk {
      * @param chunkX
      * @param chunkZ
      */
-    public AbstractChunk(UUID owner, String name, int chunkX, int chunkZ) {
+    public AbstractLand(UUID owner, String name, int chunkX, int chunkZ) {
         this.owner = owner;
         this.name = name;
         this.chunkX = chunkX;
@@ -36,6 +37,10 @@ public abstract class AbstractChunk {
         return name;
     }
 
+    public String getWorld() {
+        return world;
+    }
+
     public int getChunkX() {
         return chunkX;
     }
@@ -47,8 +52,8 @@ public abstract class AbstractChunk {
     @Override
     public boolean equals(Object obj) {
 
-        if (obj instanceof AbstractChunk) {
-            AbstractChunk otherChunk = (AbstractChunk) obj;
+        if (obj instanceof AbstractLand) {
+            AbstractLand otherChunk = (AbstractLand) obj;
             return otherChunk.owner.equals(owner) && otherChunk.name.equals(name);
         }
 

@@ -1,12 +1,15 @@
 package net.ttdev.rinecore.eventhandler;
 
-import net.ttdev.rinecore.chunk.OwnedChunk;
-import net.ttdev.rinecore.chunk.RentedChunk;
+import net.ttdev.rinecore.chunk.OwnedLand;
+import net.ttdev.rinecore.chunk.RentedLand;
+import net.ttdev.rinecore.chunk.event.LandBuyEvent;
+import net.ttdev.rinecore.chunk.event.LandRentEvent;
 import net.ttdev.rinecore.chunk.sign.BuySign;
 import net.ttdev.rinecore.chunk.sign.RentSign;
 import net.ttdev.rinecore.chunk.sign.UnsupportedSignException;
 import net.ttdev.rinecore.player.RPlayer;
 import net.ttdev.rinecore.util.MessageScheduler;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -52,9 +55,10 @@ public final class PlayerInteractEventHandler implements Listener {
             } else if (rPlayer.ownsChunkWithName(rentSign.getName())) {
                 MessageScheduler.sendLater(ChatColor.RED + "You already own a chunk with this name.", MessageScheduler.TWO_SECONDS, player);
             } else {
-                rPlayer.addChunk(new RentedChunk(rPlayer.getUUID(), rentSign.getName(), chunk.getX(), chunk.getZ(), rentSign.getRentTime()));
+                final RentedLand rentedChunk = new RentedLand(rPlayer.getUUID(), rentSign.getName(), chunk.getX(), chunk.getZ(), rentSign.getRentTime());
+                rPlayer.addChunk(rentedChunk);
                 rPlayer.changeBalance(-rentSign.getCost());
-                MessageScheduler.sendLater(ChatColor.GREEN + "Property rent successful!", MessageScheduler.TWO_SECONDS, player);
+                Bukkit.getPluginManager().callEvent(new LandRentEvent(rentedChunk, rentSign, player));
             }
         } catch (UnsupportedSignException e) { }
 
@@ -73,9 +77,10 @@ public final class PlayerInteractEventHandler implements Listener {
             } else if (rPlayer.ownsChunkWithName(buySign.getName())) {
                 MessageScheduler.sendLater(ChatColor.RED + "You already own a chunk with this name.", MessageScheduler.TWO_SECONDS, player);
             } else {
-                rPlayer.addChunk(new OwnedChunk(rPlayer.getUUID(), buySign.getName(), chunk.getX(), chunk.getZ()));
+                final OwnedLand ownedChunk = new OwnedLand(rPlayer.getUUID(), buySign.getName(), chunk.getX(), chunk.getZ());
+                rPlayer.addChunk(ownedChunk);
                 rPlayer.changeBalance(-buySign.getCost());
-                MessageScheduler.sendLater(ChatColor.GREEN + "Property purchase successful!", MessageScheduler.TWO_SECONDS, player);
+                Bukkit.getPluginManager().callEvent(new LandBuyEvent(ownedChunk, buySign, player));
             }
         } catch (UnsupportedSignException e) { }
     }

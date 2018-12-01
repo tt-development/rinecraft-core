@@ -7,7 +7,6 @@ import net.ttdev.rinecore.chunk.event.LandRentEvent;
 import net.ttdev.rinecore.chunk.sign.BuySign;
 import net.ttdev.rinecore.chunk.sign.OwnedSign;
 import net.ttdev.rinecore.chunk.sign.RentSign;
-import net.ttdev.rinecore.chunk.sign.UnsupportedSignException;
 import net.ttdev.rinecore.chunk.sign.event.OwnedSignInteractEvent;
 import net.ttdev.rinecore.player.RPlayer;
 import net.ttdev.rinecore.util.ActionScheduler;
@@ -44,15 +43,13 @@ public final class PlayerInteractEventHandler implements Listener {
 
         Sign sign = (Sign) block.getState();
 
-        try {
-            OwnedSign ownedSign = new OwnedSign(sign);
-            Bukkit.getPluginManager().callEvent(new OwnedSignInteractEvent(ownedSign, player));
-        } catch (UnsupportedSignException e) { }
+        if (OwnedSign.isValid(sign.getLines())) {
+            Bukkit.getPluginManager().callEvent(new OwnedSignInteractEvent(new OwnedSign(sign), player));
+        }
 
-        final RentSign rentSign;
-        try {
+        if (RentSign.isValid(sign.getLines())) {
 
-            rentSign = new RentSign(sign.getLines());
+            final RentSign rentSign = new RentSign(sign.getLines());
 
             if (!player.hasPermission(Permissions.LAND_RENT)) {
                 player.sendMessage(ChatColor.RED + "No permission.");
@@ -77,16 +74,15 @@ public final class PlayerInteractEventHandler implements Listener {
                 ActionScheduler.doLater(() -> {
 
                     final SignWrapper signWrapper = new SignWrapper(sign);
-                    signWrapper.setLines(ChatColor.RED + "[Owned]", player.getName(), null, null);
+                    signWrapper.setLines(ChatColor.RED + OwnedSign.HEADER, player.getName(), null, null);
 
                 }, ActionScheduler.TWO_SECONDS);
             }
-        } catch (UnsupportedSignException e) { }
+        }
 
-        final BuySign buySign;
-        try {
+        if (BuySign.isValid(sign.getLines())) {
 
-            buySign = new BuySign(sign.getLines());
+            final BuySign buySign = new BuySign(sign.getLines());
 
             if (!player.hasPermission(Permissions.LAND_BUY)) {
                 player.sendMessage(ChatColor.RED + "No permission.");
@@ -111,10 +107,10 @@ public final class PlayerInteractEventHandler implements Listener {
                 ActionScheduler.doLater(() -> {
 
                     final SignWrapper signWrapper = new SignWrapper(sign);
-                    signWrapper.setLines(ChatColor.RED + "[Owned]", player.getName(), null, null);
+                    signWrapper.setLines(ChatColor.RED + OwnedSign.HEADER, player.getName(), null, null);
 
                 }, ActionScheduler.TWO_SECONDS);
             }
-        } catch (UnsupportedSignException e) { }
+        }
     }
 }

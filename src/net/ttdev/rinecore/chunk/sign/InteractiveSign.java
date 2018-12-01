@@ -22,11 +22,10 @@ public abstract class InteractiveSign<A, B, C> {
     final B secondValue;
     final C thirdValue;
 
-    InteractiveSign(String header, Function<String, A> firstParser, Function<String, B> secondParser, Function<String, C> thirdParser, String... lines) throws UnsupportedSignException {
-
-        if (!ChatColor.stripColor(lines[0]).equals(header)) throw new UnsupportedSignException();
+    InteractiveSign(String header, Function<String, A> firstParser, Function<String, B> secondParser, Function<String, C> thirdParser, String... lines) {
 
         this.header = header;
+
         firstValue = firstParser != null ? firstParser.apply(ChatColor.stripColor(lines[1])) : null;
         secondValue = secondParser != null ? secondParser.apply(ChatColor.stripColor(lines[2])) : null;
         thirdValue = thirdParser != null ? thirdParser.apply(ChatColor.stripColor(lines[3])) : null;

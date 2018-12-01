@@ -2,18 +2,13 @@ package net.ttdev.rinecore.chunk.sign;
 
 import net.ttdev.rinecore.chunk.RentTime;
 import org.bukkit.ChatColor;
-import org.bukkit.event.block.SignChangeEvent;
 
 public final class RentSign extends InteractiveSign<String, Integer, RentTime> {
 
-    public RentSign(String... lines) throws UnsupportedSignException {
+    public static final String HEADER = "[Rent]";
+
+    public RentSign(String... lines) {
         super("[Rent]", String::toString, Integer::parseInt, RentTime::valueOf, lines);
-    }
-
-    public RentSign(SignChangeEvent event) throws UnsupportedSignException {
-        this(event.getLines());
-
-        event.setLine(0, ChatColor.YELLOW + super.header);
     }
 
     public String getName() {
@@ -26,5 +21,9 @@ public final class RentSign extends InteractiveSign<String, Integer, RentTime> {
 
     public RentTime getRentTime() {
         return thirdValue;
+    }
+
+    public static boolean isValid(String... lines) {
+        return ChatColor.stripColor(lines[0]).equals(HEADER);
     }
 }

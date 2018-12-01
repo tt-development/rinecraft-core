@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.player.module;
+package net.ttdev.rinecore.player.data;
 
 import net.ttdev.rinecore.file.Serializer;
 import net.ttdev.rinecore.util.FileDirectories;

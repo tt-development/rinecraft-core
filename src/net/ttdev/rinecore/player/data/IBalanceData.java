@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.player.module;
+package net.ttdev.rinecore.player.data;
 
 public interface IBalanceData {
 

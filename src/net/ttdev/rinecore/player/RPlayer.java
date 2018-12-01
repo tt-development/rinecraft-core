@@ -3,10 +3,10 @@ package net.ttdev.rinecore.player;
 import net.ttdev.rinecore.chunk.AbstractLand;
 import net.ttdev.rinecore.chunk.OwnedLand;
 import net.ttdev.rinecore.chunk.RentedLand;
-import net.ttdev.rinecore.player.module.IBalanceData;
-import net.ttdev.rinecore.player.module.IChunkData;
-import net.ttdev.rinecore.player.module.RBalanceData;
-import net.ttdev.rinecore.player.module.RChunkData;
+import net.ttdev.rinecore.player.data.IBalanceData;
+import net.ttdev.rinecore.player.data.IChunkData;
+import net.ttdev.rinecore.player.data.RBalanceData;
+import net.ttdev.rinecore.player.data.RChunkData;
 import org.bukkit.Chunk;
 
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.player.module;
+package net.ttdev.rinecore.player.data;
 
 import net.ttdev.rinecore.chunk.AbstractLand;
 import net.ttdev.rinecore.chunk.OwnedLand;

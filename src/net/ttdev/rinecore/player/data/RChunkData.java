@@ -25,7 +25,7 @@ public final class RChunkData extends RPlayerData implements IChunkData {
 
     @Override
     public void addChunk(AbstractLand chunk) {
-        Serializer.saveChunk(FileDirectories.CHUNKS, chunk);
+        Serializer.saveChunk(chunk, FileDirectories.CHUNKS);
     }
 
     public boolean ownsChunk(Chunk chunk) {

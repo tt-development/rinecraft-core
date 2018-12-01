@@ -3,6 +3,7 @@ package net.ttdev.rinecore.file;
 import net.ttdev.rinecore.chunk.AbstractLand;
 import net.ttdev.rinecore.chunk.OwnedLand;
 import net.ttdev.rinecore.chunk.RentedLand;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -73,7 +74,7 @@ public final class Serializer {
 
     }
 
-    public static void saveChunk(String filePath, AbstractLand chunk) {
+    public static void saveChunk(AbstractLand chunk, String filePath) {
 
         File file = new File(filePath);
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
@@ -94,7 +95,7 @@ public final class Serializer {
      * @param filePath
      * @param landChunks
      */
-    public static void saveChunks(String filePath, Collection<? extends AbstractLand> landChunks) {
+    public static void saveChunks(Collection<? extends AbstractLand> landChunks, String filePath) {
 
         File file = new File(filePath);
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
@@ -142,6 +143,15 @@ public final class Serializer {
 
             chunks.add(chunk);
         }
+
+        return chunks;
+    }
+
+    public static List<AbstractLand> loadChunks(String filePath) {
+
+        final List<AbstractLand> chunks = new ArrayList<>();
+
+        Arrays.stream(Bukkit.getOfflinePlayers()).forEach(player -> chunks.addAll(loadChunks(player.getUniqueId(), filePath)));
 
         return chunks;
     }

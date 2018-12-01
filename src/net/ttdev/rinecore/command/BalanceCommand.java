@@ -26,7 +26,7 @@ public final class BalanceCommand implements CommandExecutor {
 
         } else if (args[0].equalsIgnoreCase("add")) {
 
-            if (!player.hasPermission(Permissions.ECO_GIVE)) {
+            if (!player.hasPermission(Permissions.ADMIN)) {
                 player.sendMessage(ChatColor.RED + "No permission.");
                 return true;
             }

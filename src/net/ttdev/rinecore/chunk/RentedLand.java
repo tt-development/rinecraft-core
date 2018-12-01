@@ -29,8 +29,12 @@ public final class RentedLand extends AbstractLand implements Comparable<RentedL
         return duration;
     }
 
-    public void changeDuration(int amount) {
-        duration += amount;
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void changeDuration(int duration) {
+        this.duration += duration;
     }
 
     @Override

@@ -28,7 +28,7 @@ public final class RentTimeDeductor extends BukkitRunnable {
                 if (chunk.hasExpired()) Bukkit.getServer().getPluginManager().callEvent(new LandExpireEvent(chunk));
             });
 
-            Serializer.saveChunks(FileDirectories.CHUNKS, rentedChunks);
+            Serializer.saveChunks(rentedChunks, FileDirectories.CHUNKS);
         }
     }
 }

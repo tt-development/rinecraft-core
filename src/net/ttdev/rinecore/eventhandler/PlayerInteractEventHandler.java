@@ -58,7 +58,7 @@ public final class PlayerInteractEventHandler implements Listener {
                 final RentedLand rentedChunk = new RentedLand(rPlayer.getUUID(), rentSign.getName(), chunk.getX(), chunk.getZ(), rentSign.getRentTime());
                 rPlayer.addChunk(rentedChunk);
                 rPlayer.changeBalance(-rentSign.getCost());
-                Bukkit.getPluginManager().callEvent(new LandRentEvent(rentedChunk, rentSign, player));
+                Bukkit.getPluginManager().callEvent(new LandRentEvent(rentedChunk, player));
             }
         } catch (UnsupportedSignException e) { }
 
@@ -80,7 +80,7 @@ public final class PlayerInteractEventHandler implements Listener {
                 final OwnedLand ownedChunk = new OwnedLand(rPlayer.getUUID(), buySign.getName(), chunk.getX(), chunk.getZ());
                 rPlayer.addChunk(ownedChunk);
                 rPlayer.changeBalance(-buySign.getCost());
-                Bukkit.getPluginManager().callEvent(new LandBuyEvent(ownedChunk, buySign, player));
+                Bukkit.getPluginManager().callEvent(new LandBuyEvent(ownedChunk, player));
             }
         } catch (UnsupportedSignException e) { }
     }

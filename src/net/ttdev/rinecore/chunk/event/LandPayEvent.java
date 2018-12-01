@@ -5,14 +5,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public abstract class LandPurchaseEvent<T extends AbstractLand> extends Event {
+public abstract class LandPayEvent<T extends AbstractLand> extends Event {
 
     private static HandlerList handlerList = new HandlerList();
 
     private T chunk;
     private Player player;
 
-    LandPurchaseEvent(T chunk, Player player) {
+    LandPayEvent(T chunk, Player player) {
         this.chunk = chunk;
         this.player = player;
     }

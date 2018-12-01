@@ -5,7 +5,7 @@ import java.util.function.Function;
 /**
  * A sign that can be right-clicked. An
  * interactive sign must contain a header describing
- * the type of sing it is, and three <code>Function</code>'s
+ * the type of sign it is, and three <code>Function</code>'s
  * that can convert the sign lines into their preferred types
  * for easy use.
  *

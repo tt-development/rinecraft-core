@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class LandExpireEvent extends Event {
+public final class LandExpireEvent extends Event {
 
     private static final HandlerList handlerList = new HandlerList();
 

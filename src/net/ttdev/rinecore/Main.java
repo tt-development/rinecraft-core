@@ -2,7 +2,7 @@ package net.ttdev.rinecore;
 
 import net.ttdev.rinecore.chunk.RentTimeDeductor;
 import net.ttdev.rinecore.command.BalanceCommand;
-import net.ttdev.rinecore.command.ChunkCommand;
+import net.ttdev.rinecore.command.LandCommand;
 import net.ttdev.rinecore.eventhandler.LandEventHandler;
 import net.ttdev.rinecore.eventhandler.PlayerInteractEventHandler;
 import net.ttdev.rinecore.eventhandler.SignChangeEventHandler;
@@ -52,7 +52,7 @@ public class Main extends JavaPlugin implements Listener {
         new AFKThread().runTaskTimer(this, 20, 20);
 
         getServer().getPluginCommand("balance").setExecutor(new BalanceCommand());
-        getServer().getPluginCommand("chunk").setExecutor(new ChunkCommand());
+        getServer().getPluginCommand("chunk").setExecutor(new LandCommand());
 
         getLogger().info(getName() + " enabled.");
     }

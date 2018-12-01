@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public final class ChunkCommand implements CommandExecutor {
+public final class LandCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -29,7 +29,7 @@ public final class ChunkCommand implements CommandExecutor {
 
         if (args.length == 0) {
 
-            player.sendMessage("/chunk rent <name> <time: day, week, month> - Rent the chunk you are standing in.");
+            player.sendMessage("/chunk rent <name> <[seconds] or [day, week, month]> - Rent the chunk you are standing in.");
             player.sendMessage("/chunk unrent <name> - Stop renting a chunk of chunk.");
             player.sendMessage("/chunk buy <name> - Buy the chunk you are standing in.");
             player.sendMessage("/chunk list - List all owned chunk.");

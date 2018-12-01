@@ -6,7 +6,8 @@ import net.ttdev.rinecore.chunk.event.LandCreateEvent;
 import net.ttdev.rinecore.chunk.event.LandExpireEvent;
 import net.ttdev.rinecore.chunk.event.LandRentEvent;
 import net.ttdev.rinecore.util.MessageScheduler;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,22 +16,6 @@ public final class LandEventHandler implements Listener {
 
     @EventHandler
     public void onChunkCreate(LandCreateEvent event) {
-
-        final Location chunkY = event.getSignLocation().subtract(0, 1, 0);
-        final Chunk chunk = chunkY.getChunk();
-        final World world = chunk.getWorld();
-
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
-                for (int y = chunkY.getBlockY() - 10; y < chunkY.getBlockY(); y++) {
-                    final int chunkX = (chunk.getX() * 16) + x;
-                    final int chunkZ = (chunk.getZ() * 16) + z;
-                    final Location location = new Location(world, chunkX, y, chunkZ);
-                    location.getBlock().setType(Material.STONE);
-                }
-            }
-        }
-
         event.getPlayer().sendMessage(event.getLandType() + " plot created.");
     }
 

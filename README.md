@@ -8,6 +8,7 @@ The powerhouse of Rinecraft.
 * Player balances
 
 ### WIP Features
+* Sign indicating property is already owned.
 
 ### Caveats
 * [FIXED] No permissions for rent and buy signs.

@@ -1,11 +1,11 @@
-package net.ttdev.rinecore.eventhandler;
+package net.ttdev.rinecore.handler;
 
 import net.ttdev.rinecore.chunk.AbstractLand;
 import net.ttdev.rinecore.chunk.event.LandBuyEvent;
 import net.ttdev.rinecore.chunk.event.LandCreateEvent;
 import net.ttdev.rinecore.chunk.event.LandExpireEvent;
 import net.ttdev.rinecore.chunk.event.LandRentEvent;
-import net.ttdev.rinecore.util.MessageScheduler;
+import net.ttdev.rinecore.util.ActionScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -21,12 +21,12 @@ public final class LandEventHandler implements Listener {
 
     @EventHandler
     public void onLandRent(LandRentEvent event) {
-        MessageScheduler.sendLater(ChatColor.GREEN + "Property rent successful!", MessageScheduler.TWO_SECONDS, event.getPlayer());
+        ActionScheduler.sendMessageLater(ChatColor.GREEN + "Property rent successful!", ActionScheduler.TWO_SECONDS, event.getPlayer());
     }
 
     @EventHandler
     public void onLandBuy(LandBuyEvent event) {
-        MessageScheduler.sendLater(ChatColor.GREEN + "Property purchase successful!", MessageScheduler.TWO_SECONDS, event.getPlayer());
+        ActionScheduler.sendMessageLater(ChatColor.GREEN + "Property purchase successful!", ActionScheduler.TWO_SECONDS, event.getPlayer());
     }
 
     @EventHandler

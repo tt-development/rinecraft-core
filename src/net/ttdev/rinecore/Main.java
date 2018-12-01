@@ -3,9 +3,10 @@ package net.ttdev.rinecore;
 import net.ttdev.rinecore.chunk.RentTimeDeductor;
 import net.ttdev.rinecore.command.BalanceCommand;
 import net.ttdev.rinecore.command.LandCommand;
-import net.ttdev.rinecore.eventhandler.LandEventHandler;
-import net.ttdev.rinecore.eventhandler.PlayerInteractEventHandler;
-import net.ttdev.rinecore.eventhandler.SignChangeEventHandler;
+import net.ttdev.rinecore.handler.LandEventHandler;
+import net.ttdev.rinecore.handler.LandSignEventHandler;
+import net.ttdev.rinecore.handler.PlayerInteractEventHandler;
+import net.ttdev.rinecore.handler.SignChangeEventHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -43,6 +44,7 @@ public class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new SignChangeEventHandler(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractEventHandler(), this);
         getServer().getPluginManager().registerEvents(new LandEventHandler(), this);
+        getServer().getPluginManager().registerEvents(new LandSignEventHandler(), this);
 
         startPlaytimeClock();
 

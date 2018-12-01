@@ -1,4 +1,4 @@
-package net.ttdev.rinecore.eventhandler;
+package net.ttdev.rinecore.handler;
 
 import net.ttdev.rinecore.chunk.LandType;
 import net.ttdev.rinecore.chunk.event.LandCreateEvent;
@@ -15,6 +15,8 @@ public final class SignChangeEventHandler implements Listener {
 
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
+
+        System.out.println("Calling SignChangedEvent.");
 
         if (event.getLines().length == 0) {
             return;

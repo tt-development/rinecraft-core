@@ -1,15 +1,18 @@
-package net.ttdev.rinecore.eventhandler;
+package net.ttdev.rinecore.handler;
 
 import net.ttdev.rinecore.chunk.OwnedLand;
 import net.ttdev.rinecore.chunk.RentedLand;
 import net.ttdev.rinecore.chunk.event.LandBuyEvent;
 import net.ttdev.rinecore.chunk.event.LandRentEvent;
 import net.ttdev.rinecore.chunk.sign.BuySign;
+import net.ttdev.rinecore.chunk.sign.OwnedSign;
 import net.ttdev.rinecore.chunk.sign.RentSign;
 import net.ttdev.rinecore.chunk.sign.UnsupportedSignException;
+import net.ttdev.rinecore.chunk.sign.event.OwnedSignInteractEvent;
 import net.ttdev.rinecore.player.RPlayer;
-import net.ttdev.rinecore.util.MessageScheduler;
+import net.ttdev.rinecore.util.ActionScheduler;
 import net.ttdev.rinecore.util.Permissions;
+import net.ttdev.rinecore.util.SignWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -41,6 +44,11 @@ public final class PlayerInteractEventHandler implements Listener {
 
         Sign sign = (Sign) block.getState();
 
+        try {
+            OwnedSign ownedSign = new OwnedSign(sign);
+            Bukkit.getPluginManager().callEvent(new OwnedSignInteractEvent(ownedSign, player));
+        } catch (UnsupportedSignException e) { }
+
         final RentSign rentSign;
         try {
 
@@ -55,16 +63,23 @@ public final class PlayerInteractEventHandler implements Listener {
 
             final RPlayer rPlayer = new RPlayer(player.getUniqueId());
             if (rPlayer.getBalance() < rentSign.getCost()) {
-                MessageScheduler.sendLater(ChatColor.RED + "You don't have enough money for this purchase.", MessageScheduler.TWO_SECONDS, player);
+                ActionScheduler.sendMessageLater(ChatColor.RED + "You don't have enough money for this purchase.", ActionScheduler.TWO_SECONDS, player);
             } else if (rPlayer.ownsChunk(chunk)) {
-                MessageScheduler.sendLater(ChatColor.RED + "You already own this chunk.", MessageScheduler.TWO_SECONDS, player);
+                ActionScheduler.sendMessageLater(ChatColor.RED + "You already own this chunk.", ActionScheduler.TWO_SECONDS, player);
             } else if (rPlayer.ownsChunkWithName(rentSign.getName())) {
-                MessageScheduler.sendLater(ChatColor.RED + "You already own a chunk with this name.", MessageScheduler.TWO_SECONDS, player);
+                ActionScheduler.sendMessageLater(ChatColor.RED + "You already own a chunk with this name.", ActionScheduler.TWO_SECONDS, player);
             } else {
                 final RentedLand rentedChunk = new RentedLand(rPlayer.getUUID(), rentSign.getName(), chunk.getX(), chunk.getZ(), rentSign.getRentTime());
                 rPlayer.addChunk(rentedChunk);
                 rPlayer.changeBalance(-rentSign.getCost());
                 Bukkit.getPluginManager().callEvent(new LandRentEvent(rentedChunk, player));
+
+                ActionScheduler.doLater(() -> {
+
+                    final SignWrapper signWrapper = new SignWrapper(sign);
+                    signWrapper.setLines(ChatColor.RED + "[Owned]", player.getName(), null, null);
+
+                }, ActionScheduler.TWO_SECONDS);
             }
         } catch (UnsupportedSignException e) { }
 
@@ -82,16 +97,23 @@ public final class PlayerInteractEventHandler implements Listener {
 
             final RPlayer rPlayer = new RPlayer(player.getUniqueId());
             if (rPlayer.getBalance() < buySign.getCost()) {
-                MessageScheduler.sendLater(ChatColor.RED + "You don't have enough money for this purchase.", MessageScheduler.TWO_SECONDS, player);
+                ActionScheduler.sendMessageLater(ChatColor.RED + "You don't have enough money for this purchase.", ActionScheduler.TWO_SECONDS, player);
             } else if (rPlayer.ownsChunk(chunk)) {
-                MessageScheduler.sendLater(ChatColor.RED + "You already own this chunk.", MessageScheduler.TWO_SECONDS, player);
+                ActionScheduler.sendMessageLater(ChatColor.RED + "You already own this chunk.", ActionScheduler.TWO_SECONDS, player);
             } else if (rPlayer.ownsChunkWithName(buySign.getName())) {
-                MessageScheduler.sendLater(ChatColor.RED + "You already own a chunk with this name.", MessageScheduler.TWO_SECONDS, player);
+                ActionScheduler.sendMessageLater(ChatColor.RED + "You already own a chunk with this name.", ActionScheduler.TWO_SECONDS, player);
             } else {
                 final OwnedLand ownedChunk = new OwnedLand(rPlayer.getUUID(), buySign.getName(), chunk.getX(), chunk.getZ());
                 rPlayer.addChunk(ownedChunk);
                 rPlayer.changeBalance(-buySign.getCost());
                 Bukkit.getPluginManager().callEvent(new LandBuyEvent(ownedChunk, player));
+
+                ActionScheduler.doLater(() -> {
+
+                    final SignWrapper signWrapper = new SignWrapper(sign);
+                    signWrapper.setLines(ChatColor.RED + "[Owned]", player.getName(), null, null);
+
+                }, ActionScheduler.TWO_SECONDS);
             }
         } catch (UnsupportedSignException e) { }
     }

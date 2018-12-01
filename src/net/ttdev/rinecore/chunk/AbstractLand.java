@@ -1,5 +1,7 @@
 package net.ttdev.rinecore.chunk;
 
+import org.bukkit.Chunk;
+
 import java.util.UUID;
 
 /**
@@ -47,6 +49,10 @@ public abstract class AbstractLand {
 
     public int getChunkZ() {
         return chunkZ;
+    }
+
+    public boolean containsChunk(Chunk chunk) {
+        return chunkX == chunk.getX() && chunkZ == chunk.getZ();
     }
 
     @Override

@@ -7,6 +7,7 @@ import net.ttdev.rinecore.chunk.RentedLand;
 import net.ttdev.rinecore.file.Serializer;
 import net.ttdev.rinecore.player.RPlayer;
 import net.ttdev.rinecore.util.FileDirectories;
+import net.ttdev.rinecore.util.Permissions;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
@@ -35,6 +36,11 @@ public final class LandCommand implements CommandExecutor {
             player.sendMessage("/chunk list - List all owned chunk.");
 
         } else if (args[0].equalsIgnoreCase("rent")) {
+
+            if (!player.hasPermission(Permissions.LAND_RENT)) {
+                player.sendMessage(ChatColor.RED + "No permission.");
+                return true;
+            }
 
             Chunk chunk = player.getLocation().getChunk();
 
@@ -84,6 +90,11 @@ public final class LandCommand implements CommandExecutor {
             player.sendMessage(ChatColor.GREEN + "Chunk rent successful.");
 
         } else if (args[0].equalsIgnoreCase("buy")) {
+
+            if (!player.hasPermission(Permissions.LAND_BUY)) {
+                player.sendMessage(ChatColor.RED + "No permission.");
+                return true;
+            }
 
             Chunk chunk = player.getLocation().getChunk();
 

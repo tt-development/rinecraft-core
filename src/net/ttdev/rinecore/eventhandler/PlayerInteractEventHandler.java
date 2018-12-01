@@ -9,6 +9,7 @@ import net.ttdev.rinecore.chunk.sign.RentSign;
 import net.ttdev.rinecore.chunk.sign.UnsupportedSignException;
 import net.ttdev.rinecore.player.RPlayer;
 import net.ttdev.rinecore.util.MessageScheduler;
+import net.ttdev.rinecore.util.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -45,6 +46,11 @@ public final class PlayerInteractEventHandler implements Listener {
 
             rentSign = new RentSign(sign.getLines());
 
+            if (!player.hasPermission(Permissions.LAND_RENT)) {
+                player.sendMessage(ChatColor.RED + "No permission.");
+                return;
+            }
+
             player.sendMessage("Renting property...");
 
             final RPlayer rPlayer = new RPlayer(player.getUniqueId());
@@ -66,6 +72,11 @@ public final class PlayerInteractEventHandler implements Listener {
         try {
 
             buySign = new BuySign(sign.getLines());
+
+            if (!player.hasPermission(Permissions.LAND_BUY)) {
+                player.sendMessage(ChatColor.RED + "No permission.");
+                return;
+            }
 
             player.sendMessage("Buying property...");
 

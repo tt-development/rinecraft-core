@@ -6,6 +6,7 @@ import net.ttdev.rinecore.chunk.sign.BuySign;
 import net.ttdev.rinecore.chunk.sign.RentSign;
 import net.ttdev.rinecore.chunk.sign.UnsupportedSignException;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
@@ -19,14 +20,16 @@ public final class SignChangeEventHandler implements Listener {
             return;
         }
 
+        final Chunk chunk = event.getBlock().getChunk();
+
         try {
             new RentSign(event.getLines());
-            Bukkit.getServer().getPluginManager().callEvent(new LandCreateEvent(LandType.RENT, event.getPlayer()));
+            Bukkit.getServer().getPluginManager().callEvent(new LandCreateEvent(LandType.RENT, chunk, event.getPlayer()));
         } catch (UnsupportedSignException e) { }
 
         try {
             new BuySign(event.getLines());
-            Bukkit.getServer().getPluginManager().callEvent(new LandCreateEvent(LandType.BUY, event.getPlayer()));
+            Bukkit.getServer().getPluginManager().callEvent(new LandCreateEvent(LandType.BUY, chunk, event.getPlayer()));
         } catch (UnsupportedSignException e) { }
 
     }

@@ -1,6 +1,7 @@
 package net.ttdev.rinecore.command;
 
 import net.ttdev.rinecore.player.RPlayer;
+import net.ttdev.rinecore.util.Permissions;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,6 +26,11 @@ public final class BalanceCommand implements CommandExecutor {
 
         } else if (args[0].equalsIgnoreCase("add")) {
 
+            if (!player.hasPermission(Permissions.ECO_GIVE)) {
+                player.sendMessage(ChatColor.RED + "No permission.");
+                return true;
+            }
+
             final int amount = Integer.parseInt(args[1]);
 
             final RPlayer rPlayer = new RPlayer(player.getUniqueId());
@@ -32,8 +38,6 @@ public final class BalanceCommand implements CommandExecutor {
 
             player.sendMessage(ChatColor.GREEN + "Added " + amount + " to your balance.");
         }
-
-        //TODO Save the RPlayer's balance!
 
         return true;
     }

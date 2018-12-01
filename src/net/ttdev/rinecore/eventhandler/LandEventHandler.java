@@ -15,22 +15,22 @@ import org.bukkit.event.Listener;
 public final class LandEventHandler implements Listener {
 
     @EventHandler
-    public void onChunkCreate(LandCreateEvent event) {
+    public void onLandCreate(LandCreateEvent event) {
         event.getPlayer().sendMessage(event.getLandType() + " plot created.");
     }
 
     @EventHandler
-    public void onChunkRent(LandRentEvent event) {
+    public void onLandRent(LandRentEvent event) {
         MessageScheduler.sendLater(ChatColor.GREEN + "Property rent successful!", MessageScheduler.TWO_SECONDS, event.getPlayer());
     }
 
     @EventHandler
-    public void onChunkBuy(LandBuyEvent event) {
+    public void onLandBuy(LandBuyEvent event) {
         MessageScheduler.sendLater(ChatColor.GREEN + "Property purchase successful!", MessageScheduler.TWO_SECONDS, event.getPlayer());
     }
 
     @EventHandler
-    public void onChunkExpire(LandExpireEvent event) {
+    public void onLandExpire(LandExpireEvent event) {
 
         final AbstractLand chunk = event.getChunk();
 

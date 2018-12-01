@@ -1,5 +1,7 @@
 package net.ttdev.rinecore.chunk.sign;
 
+import org.bukkit.ChatColor;
+
 import java.util.function.Function;
 
 /**
@@ -15,16 +17,18 @@ import java.util.function.Function;
  */
 public abstract class InteractiveSign<A, B, C> {
 
+    final String header;
     final A firstValue;
     final B secondValue;
     final C thirdValue;
 
     InteractiveSign(String header, Function<String, A> firstParser, Function<String, B> secondParser, Function<String, C> thirdParser, String... lines) throws UnsupportedSignException {
 
-        if (!lines[0].equals(header)) throw new UnsupportedSignException();
+        if (!ChatColor.stripColor(lines[0]).equals(header)) throw new UnsupportedSignException();
 
-        firstValue = firstParser != null ? firstParser.apply(lines[1]) : null;
-        secondValue = secondParser != null ? secondParser.apply(lines[2]) : null;
-        thirdValue = thirdParser != null ? thirdParser.apply(lines[3]) : null;
+        this.header = header;
+        firstValue = firstParser != null ? firstParser.apply(ChatColor.stripColor(lines[1])) : null;
+        secondValue = secondParser != null ? secondParser.apply(ChatColor.stripColor(lines[2])) : null;
+        thirdValue = thirdParser != null ? thirdParser.apply(ChatColor.stripColor(lines[3])) : null;
     }
 }

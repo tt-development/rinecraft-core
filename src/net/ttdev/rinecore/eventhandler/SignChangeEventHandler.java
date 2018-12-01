@@ -23,12 +23,12 @@ public final class SignChangeEventHandler implements Listener {
         final Chunk chunk = event.getBlock().getChunk();
 
         try {
-            new RentSign(event.getLines());
+            new RentSign(event);
             Bukkit.getServer().getPluginManager().callEvent(new LandCreateEvent(LandType.RENT, chunk, event.getPlayer()));
         } catch (UnsupportedSignException e) { }
 
         try {
-            new BuySign(event.getLines());
+            new BuySign(event);
             Bukkit.getServer().getPluginManager().callEvent(new LandCreateEvent(LandType.BUY, chunk, event.getPlayer()));
         } catch (UnsupportedSignException e) { }
 

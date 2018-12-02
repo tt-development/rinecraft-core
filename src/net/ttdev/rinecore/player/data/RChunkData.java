@@ -18,9 +18,7 @@ public final class RChunkData extends RPlayerData implements IChunkData {
 
     public RChunkData(UUID uuid) {
         super(uuid);
-
         chunks = Serializer.loadChunks(uuid, FileDirectories.CHUNKS);
-        System.out.println("Loaded " + chunks.size() + " chunks for " + uuid + ".");
     }
 
     @Override

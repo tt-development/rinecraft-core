@@ -23,12 +23,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-/**
- * This is the main class. Currently all the code
- * in here belongs to the playtime component of
- * RineCore and should be moved to another location
- * as soon as possible.
- */
 public class Main extends JavaPlugin implements Listener {
 
     private static Main instance;

@@ -61,7 +61,6 @@ public final class Serializer {
 
             if (rentedChunk.hasExpired()) {
                 section.set(chunk.getName(), null);
-                System.out.println("Deleting rent: " + chunk.getName() + ".");
                 return;
             }
 

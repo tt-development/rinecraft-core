@@ -1,6 +1,6 @@
 name: RineCore
 main: net.ttdev.rinecore.Main
-version: 1.0
+version: 0.5
 depends: [API]
 commands:
   playtime:

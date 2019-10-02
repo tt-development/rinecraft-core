@@ -34,7 +34,8 @@ public final class PlayerInteractEventHandler implements Listener {
         }
 
         Block block = event.getClickedBlock();
-        if (block.getType() != Material.SIGN_POST) {
+        //FIXME Possible that Material.LEGACY_SIGN_POST isn't the right type
+        if (block.getType() != Material.LEGACY_SIGN_POST) {
             return;
         }
 
